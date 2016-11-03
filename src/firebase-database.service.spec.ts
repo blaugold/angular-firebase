@@ -4,7 +4,7 @@ import { TestBed, inject } from '@angular/core/testing'
 import { FirebaseModule, Firebase } from './firebase.module'
 import { Observable } from 'rxjs'
 
-import { environment } from '../../environments/environment.test'
+import { environment } from '../environment.test'
 import { Event } from './firebase-database.service'
 
 describe('Service: FirebaseDatabase', () => {
