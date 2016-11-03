@@ -1,0 +1,47 @@
+{
+  "name": "@blaugold/angular-firebase",
+  "version": "0.0.0-alpha.0-2",
+  "description": "Wrapper around Firebase JS-API for Angular 2 Apps.",
+  "keywords": [
+    "Firebase",
+    "Angular 2",
+    "Observable",
+    "RxJS"
+  ],
+  "main": "release/index.js",
+  "module": "release/index.js",
+  "typings": "release/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ngc": "ngc -p aot.tsconfig.json",
+    "clean:pre": "rimraf release",
+    "clean:post": "rimraf src/**/*.ngfactory.ts",
+    "prebuild": "npm run clean:pre",
+    "build": "npm run ngc",
+    "postbuild": "npm run clean:post"
+  },
+  "author": "Gabriel Terwesten <gabriel@terwesten.net>",
+  "license": "MIT",
+  "dependencies": {
+    "firebase": "^3.5.3"
+  },
+  "peerDependencies": {
+    "@angular/core": "^2.1.2",
+    "rxjs": "5.0.0-beta.12"
+  },
+  "optionalDependencies": {
+    "@blaugold/angular-logger": "^0.0.0-beta.0"
+  },
+  "devDependencies": {
+    "@angular/common": "^2.1.2",
+    "@angular/compiler": "^2.1.2",
+    "@angular/compiler-cli": "^2.1.2",
+    "@angular/core": "^2.1.2",
+    "@angular/platform-browser": "^2.1.2",
+    "@angular/platform-server": "^2.1.2",
+    "rimraf": "^2.5.4",
+    "rxjs": "5.0.0-beta.12",
+    "typescript": "^2.0.6",
+    "zone.js": "^0.6.26"
+  }
+}
