@@ -1,6 +1,7 @@
-import { database, auth, User as FbUser } from 'firebase'
+import { auth, User as FbUser } from 'firebase'
+import { ExtendedDataSnapshot } from './data-snapshot-observable'
 
-export type DataSnapshot = database.DataSnapshot
+export type DataSnapshot = ExtendedDataSnapshot
 export type User = FbUser
 
 export type AuthProvider = auth.AuthProvider

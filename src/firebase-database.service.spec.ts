@@ -6,6 +6,7 @@ import { Observable } from 'rxjs'
 import { FirebaseAppConfig, FirebaseApp } from './firebase-app.service'
 import { FirebaseModule } from './firebase.module'
 import { FirebaseDatabase } from './firebase-database.service'
+import { DataSnapshot } from './reexports'
 
 let firebaseApp: FirebaseApp
 
@@ -87,10 +88,8 @@ describe('Service: FirebaseDatabase', () => {
         node.set(nodeData)
           .mergeMapTo(node.orderByChild('c')
             .onceValue()
-            .children()
+            .toValArray()
           )
-          .mergeMap(childrenSnapshot => childrenSnapshot.val())
-          .toArray()
           .do(children => expect(children).toEqual([
             { c: 'a' },
             { c: 'b' },

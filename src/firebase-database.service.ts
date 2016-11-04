@@ -1,10 +1,11 @@
-import { Injectable, NgZone } from '@angular/core'
+import { Injectable, NgZone, Injector, ReflectiveInjector } from '@angular/core'
 import { Observable, Subscriber } from 'rxjs'
 import { database } from 'firebase'
 
 import { NativeFirebaseDatabase } from './native-firebase'
 import { wrapPromise } from './utils'
 import { DataSnapshot } from './reexports'
+import { DataSnapshotObservable } from './data-snapshot-observable'
 
 import './add/run-in-zone'
 
@@ -19,98 +20,6 @@ export class Event {
   static ChildChanged: EventType = 'child_changed'
   static ChildRemoved: EventType = 'child_removed'
   static ChildMoved: EventType   = 'child_moved'
-}
-
-export interface ExtendedDataSnapshot extends DataSnapshot {
-  prevKey: string
-}
-
-export class DataSnapshotObservable<T> extends Observable<ExtendedDataSnapshot> {
-
-  exists(): Observable<boolean> {
-    return this.map(snapshot => snapshot.exists())
-  }
-
-  children<C>(): Observable<DataSnapshotObservable<C>> {
-    return this.map(snapshot => new DataSnapshotObservable(sub => {
-      snapshot.forEach(childSnapshot => sub.next(childSnapshot))
-      sub.complete()
-    }))
-  }
-
-  /**
-   * This operator takes the result of .val() for all children of the snapshot and emits
-   * them as an array.
-   * Contents of source snapshot:
-   * ```
-   * {
-   *  childA: { prop: 'Hello' },
-   *  childB: { prop: 'World!' },
-   * }
-   * ```
-   * Result of operator:
-   * ```
-   * [
-   *  { prop: 'Hello' },
-   *  { prop: 'World!' },
-   * ]
-   * ```
-   * @returns {Observable<C[]>}
-   */
-  toValArray<C>(): Observable<C[]> {
-    return this.children<C>()
-      .switchMap(children => children
-        .val()
-        .toArray()
-      )
-  }
-
-  key(): Observable<string> {
-    return this.map(snapshot => snapshot.key)
-  }
-
-  /**
-   * When listening to events such as {@link Event.ChildMoved} the snapshot includes
-   * the key of the child before this snapshots one. This operator maps to this key.
-   * @returns {Observable<string>}
-   */
-  prevKey(): Observable<string> {
-    return this.map(snapshot => snapshot.prevKey)
-  }
-
-  val<T>(): Observable<T> {
-    return this.map(snapshot => snapshot.val())
-  }
-
-  getPriority(): Observable<number | string> {
-    return this.map((snapshot: ExtendedDataSnapshot) => snapshot.getPriority())
-  }
-
-  exportVal(): Observable<any> {
-    return this.map((snapshot: ExtendedDataSnapshot) => snapshot.exportVal())
-  }
-
-  hasChild(path: string): Observable<boolean> {
-    return this.map((snapshot: ExtendedDataSnapshot) => snapshot.hasChild(path))
-  }
-
-  hasChildren(): Observable<boolean> {
-    return this.map((snapshot: ExtendedDataSnapshot) => snapshot.hasChildren())
-  }
-
-  numChildren(): Observable<number> {
-    return this.map((snapshot: ExtendedDataSnapshot) => snapshot.numChildren())
-  }
-
-  child<C>(path: string): DataSnapshotObservable<C> {
-    return new DataSnapshotObservable(sub => {
-      const subscription = this
-        .map((snapshot: ExtendedDataSnapshot) => snapshot.child(path))
-        .subscribe(sub)
-
-      return () => subscription.unsubscribe()
-    })
-  }
 }
 
 export class FirebaseQuery {
@@ -235,7 +144,7 @@ export class FirebaseQuery {
 
   private getEventHandler(sub: Subscriber<any>, complete?: boolean) {
     return (snapshot: DataSnapshot, prevKey: any) => {
-      (snapshot as ExtendedDataSnapshot).prevKey = prevKey
+      (snapshot as DataSnapshot).prevKey = prevKey
       sub.next(snapshot)
       if (complete) {
         sub.complete()
@@ -260,24 +169,44 @@ export class FirebaseQuery {
   }
 }
 
+
+export class FirebaseDatabaseRefConfig {
+  constructor(public parent: FirebaseDatabaseRef,
+              public ref: NativeDatabaseRef) {
+  }
+}
+
+@Injectable()
 export class FirebaseDatabaseRef extends FirebaseQuery {
+
+  static create(parent: FirebaseDatabaseRef,
+                injector: Injector,
+                ref: NativeDatabaseRef) {
+    const childInjector = ReflectiveInjector.resolveAndCreate([
+      {
+        provide:  FirebaseDatabaseRefConfig,
+        useValue: new FirebaseDatabaseRefConfig(parent, ref),
+      },
+      FirebaseDatabaseRef
+    ], injector)
+    return childInjector.get(FirebaseDatabaseRef)
+  }
+
 
   get key(): string | null {
     return this._ref.key
   }
 
-  constructor(_ref: NativeDatabaseRef,
-              protected ngZone: NgZone,
-              public parent: FirebaseDatabaseRef,
-              public root: FirebaseDatabaseRef) {
-    super(_ref, ngZone)
-    this.root       = root || this
+  constructor(ngZone: NgZone,
+              private config: FirebaseDatabaseRefConfig,
+              private injector: Injector) {
+    super(config.ref, ngZone)
+
     this.wrappedRef = this
   }
 
   child(path: string): FirebaseDatabaseRef {
-    const childRef = this._ref.child(path)
-    return new FirebaseDatabaseRef(childRef, this.ngZone, this, this.root)
+    return FirebaseDatabaseRef.create(this, this.injector, this._ref.child(path))
   }
 
   set(value: any): Observable<void> {
@@ -297,7 +226,7 @@ export class FirebaseDatabaseRef extends FirebaseQuery {
 
   push(value?: any): Observable<FirebaseDatabaseRef> {
     const pushRef = this._ref.push(value)
-    const ref     = new FirebaseDatabaseRef(pushRef, this.ngZone, this, this.root)
+    const ref     = FirebaseDatabaseRef.create(this, this.injector, pushRef)
 
     // Only if a value to push was given, use ref as promise, since otherwise
     // pushRef.then will be undefined
@@ -331,9 +260,10 @@ export class FirebaseDatabaseRef extends FirebaseQuery {
 @Injectable()
 export class FirebaseDatabase {
 
-  constructor(private fbDatabase: NativeFirebaseDatabase, private ngZone: NgZone) { }
+  constructor(private db: NativeFirebaseDatabase,
+              private injector: Injector) { }
 
   ref(path?: string): FirebaseDatabaseRef {
-    return new FirebaseDatabaseRef(this.fbDatabase.ref(path), this.ngZone, null, null)
+    return FirebaseDatabaseRef.create(null, this.injector, this.db.ref(path))
   }
 }
