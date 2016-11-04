@@ -1,6 +1,6 @@
 {
   "name": "@blaugold/angular-firebase",
-  "version": "0.0.0-alpha.0-2",
+  "version": "0.0.0",
   "description": "Wrapper around Firebase JS-API for Angular 2 Apps.",
   "keywords": [
     "Firebase",
@@ -10,6 +10,9 @@
   ],
   "main": "index.js",
   "module": "index.js",
+  "engines": {
+    "node": ">=5.0.0"
+  },
   "scripts": {
     "fix": "cpy karma-remap-istanbul-fix/index.js node_modules/karma-remap-istanbul",
     "karma": "karma start",
