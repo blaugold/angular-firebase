@@ -2,7 +2,7 @@ import {
   NgModule, ModuleWithProviders, NgZone, OpaqueToken, Injectable,
   Inject, Optional
 } from '@angular/core';
-import { LogService, LogServiceDummy, Logger } from '@blaugold/angular-logger'
+import { Logger, LoggerDef } from '@blaugold/angular-logger'
 import * as firebase from 'firebase'
 
 import { FirebaseAuthService } from './firebase-auth.service'
@@ -19,6 +19,8 @@ export interface FirebaseAppConfig {
     messagingSenderId: string
   }
 }
+
+export const firebaseLogger = new LoggerDef('Firebase')
 
 const FIREBASE_APP_CONFIGS = new OpaqueToken('FirebaseAppConfigs')
 
@@ -60,7 +62,6 @@ export class Firebase {
 
   private instId: number
   private defaultAppName: string
-  private logger: Logger
 
   static getProjectName(config: FirebaseAppConfig): string {
     return config.config.authDomain.split('.')[0]
@@ -68,12 +69,11 @@ export class Firebase {
 
   constructor(@Inject(FIREBASE_APP_CONFIGS) private configs: FirebaseAppConfig[],
               private ngZone: NgZone,
-              @Optional() logService: LogService) {
+              @Inject(firebaseLogger) @Optional() private logger: Logger) {
     this.instId         = ++Firebase.lastInstanceId
     this.defaultAppName = `default-${this.instId}`
 
-    logService          = logService || new LogServiceDummy()
-    this.logger         = logService.getLogger('Firebase')
+    this.logger = this.logger || { info() {} } as Logger
 
     configs.forEach(config => {
       const name = config.name || this.defaultAppName

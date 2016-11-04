@@ -11,7 +11,7 @@
   "main": "index.js",
   "module": "index.js",
   "scripts": {
-    "postinstall": "cpy karma-remap-istanbul-fix/index.js node_modules/karma-remap-istanbul",
+    "fix": "cpy karma-remap-istanbul-fix/index.js node_modules/karma-remap-istanbul",
     "karma": "karma start",
     "test": "npm run karma -- --single-run",
     "copy": "cpy package.json README.md release",
@@ -32,7 +32,7 @@
     "rxjs": "5.0.0-beta.12"
   },
   "optionalDependencies": {
-    "@blaugold/angular-logger": "^0.0.0-beta.0"
+    "@blaugold/angular-logger": "^0.0.2"
   },
   "devDependencies": {
     "@angular/common": "^2.1.2",
@@ -42,7 +42,7 @@
     "@angular/platform-browser": "^2.1.2",
     "@angular/platform-browser-dynamic": "^2.1.2",
     "@angular/platform-server": "^2.1.2",
-    "@blaugold/angular-logger": "0.0.0-beta.0-0",
+    "@blaugold/angular-logger": "0.0.2",
     "@types/jasmine": "^2.5.37",
     "@types/node": "^6.0.46",
     "awesome-typescript-loader": "^2.2.4",
