@@ -1,5 +1,7 @@
 ## Angular Firebase
 
+[![CircleCI](https://circleci.com/gh/blaugold/angular-firebase.svg?style=svg&circle-token=bf5f61f7f9737852ea53e4e80981312624078636)](https://circleci.com/gh/blaugold/angular-firebase)
+
 Wrapper around Firebase JS-API for Angular 2 Apps.
 
 The library runs Firebase calls in the angular zone to make change detection work. It is focused on 
