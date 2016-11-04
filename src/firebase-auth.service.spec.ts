@@ -1,14 +1,12 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async, inject } from '@angular/core/testing';
-import { FirebaseAuthService } from './firebase-auth.service';
-import { environment } from '../environment.test'
+import { TestBed, inject } from '@angular/core/testing'
 import { FirebaseModule, Firebase } from './firebase.module'
 
 describe('Service: FirebaseAuth', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [FirebaseModule.forRoot([{ config: environment.firebaseConfig }])],
+      imports: [FirebaseModule.forRoot([{ config: firebaseConfig }])],
     });
   });
 

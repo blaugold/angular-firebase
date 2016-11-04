@@ -73,7 +73,7 @@ export class Firebase {
     this.instId         = ++Firebase.lastInstanceId
     this.defaultAppName = `default-${this.instId}`
 
-    this.logger = this.logger || { info() {} } as Logger
+    this.logger = this.logger || { info() {} } as any
 
     configs.forEach(config => {
       const name = config.name || this.defaultAppName

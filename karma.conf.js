@@ -1,4 +1,13 @@
 const path = require('path')
+const fs = require('fs')
+const webpack = require('webpack')
+
+let firebaseConfig = process.env.FIREBASE_CONFIG ||
+    fs.readFileSync('./firebase.config.local.json', {encoding: 'utf8'})
+
+if (firebaseConfig === '') {
+    throw new Error('Failed to load Firebase config.')
+}
 
 module.exports = function (karma) {
     karma.set({
@@ -9,7 +18,7 @@ module.exports = function (karma) {
         files: [{pattern: 'tests.bundle.ts', watched: false}],
 
         preprocessors: {
-          'tests.bundle.ts': ['webpack']
+            'tests.bundle.ts': ['webpack']
         },
 
         reporters: ['mocha', 'karma-remap-istanbul'],
@@ -52,7 +61,12 @@ module.exports = function (karma) {
                         ]
                     }
                 ]
-            }
+            },
+            plugins: [
+                new webpack.DefinePlugin({
+                    firebaseConfig
+                })
+            ]
         }
     })
 }

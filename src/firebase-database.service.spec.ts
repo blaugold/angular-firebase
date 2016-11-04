@@ -4,13 +4,12 @@ import { TestBed, inject } from '@angular/core/testing'
 import { FirebaseModule, Firebase } from './firebase.module'
 import { Observable } from 'rxjs'
 
-import { environment } from '../environment.test'
 import { Event } from './firebase-database.service'
 
 describe('Service: FirebaseDatabase', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [FirebaseModule.forRoot([{ config: environment.firebaseConfig }])],
+      imports: [FirebaseModule.forRoot([{ config: firebaseConfig }])],
     });
   });
 
