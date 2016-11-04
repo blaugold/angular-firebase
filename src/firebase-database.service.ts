@@ -2,13 +2,13 @@ import { Injectable, NgZone } from '@angular/core'
 import { Observable, Subscriber } from 'rxjs'
 import { database } from 'firebase'
 
-import { FirebaseDatabase } from './firebase.service'
+import { NativeFirebaseDatabase } from './native-firebase'
 import { wrapPromise } from './utils'
 import { DataSnapshot } from './reexports'
 
 import './add/run-in-zone'
 
-export type DatabaseReference = database.Reference
+export type NativeDatabaseRef = database.Reference
 export type Query = database.Query
 
 export type EventType = 'value' | 'child_added' | 'child_changed' | 'child_removed' | 'child_moved'
@@ -69,6 +69,11 @@ export class DataSnapshotObservable<T> extends Observable<ExtendedDataSnapshot> 
     return this.map(snapshot => snapshot.key)
   }
 
+  /**
+   * When listening to events such as {@link Event.ChildMoved} the snapshot includes
+   * the key of the child before this snapshots one. This operator maps to this key.
+   * @returns {Observable<string>}
+   */
   prevKey(): Observable<string> {
     return this.map(snapshot => snapshot.prevKey)
   }
@@ -116,7 +121,7 @@ export class FirebaseQuery {
     return this.wrappedRef
   }
 
-  constructor(protected _ref: DatabaseReference,
+  constructor(protected _ref: NativeDatabaseRef,
               protected ngZone: NgZone) {}
 
   orderByChild(child: string): FirebaseQuery {
@@ -261,7 +266,7 @@ export class FirebaseDatabaseRef extends FirebaseQuery {
     return this._ref.key
   }
 
-  constructor(_ref: DatabaseReference,
+  constructor(_ref: NativeDatabaseRef,
               protected ngZone: NgZone,
               public parent: FirebaseDatabaseRef,
               public root: FirebaseDatabaseRef) {
@@ -324,9 +329,9 @@ export class FirebaseDatabaseRef extends FirebaseQuery {
 }
 
 @Injectable()
-export class FirebaseDatabaseService {
+export class FirebaseDatabase {
 
-  constructor(private fbDatabase: FirebaseDatabase, private ngZone: NgZone) { }
+  constructor(private fbDatabase: NativeFirebaseDatabase, private ngZone: NgZone) { }
 
   ref(path?: string): FirebaseDatabaseRef {
     return new FirebaseDatabaseRef(this.fbDatabase.ref(path), this.ngZone, null, null)

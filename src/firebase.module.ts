@@ -1,28 +1,8 @@
-import {
-  NgModule, ModuleWithProviders, NgZone, OpaqueToken, Injectable,
-  Inject, Optional
-} from '@angular/core';
-import { Logger, LoggerDef } from '@blaugold/angular-logger'
-import * as firebase from 'firebase'
+import { NgModule, ModuleWithProviders, Injector, Provider } from '@angular/core'
 
-import { FirebaseAuthService } from './firebase-auth.service'
-import { FirebaseDatabaseService } from './firebase-database.service'
-import { FirebaseAuth, FirebaseDatabase } from './firebase.service'
-
-export interface FirebaseAppConfig {
-  name?: string
-  config: {
-    apiKey: string
-    authDomain: string
-    databaseURL: string
-    storageBucket: string
-    messagingSenderId: string
-  }
-}
-
-export const firebaseLogger = new LoggerDef('Firebase')
-
-const FIREBASE_APP_CONFIGS = new OpaqueToken('FirebaseAppConfigs')
+import { FirebaseAuth } from './firebase-auth.service'
+import { FirebaseDatabase } from './firebase-database.service'
+import { FirebaseAppConfig, FirebaseApp } from './firebase-app.service'
 
 let lazyInvocation = true
 
@@ -37,77 +17,48 @@ function setLazyInvocation(lazy: boolean) {
 @NgModule({})
 export class FirebaseModule {
   static forRoot(config: FirebaseAppConfig[], lazyInvocation = true): ModuleWithProviders {
+    this.validateConfig(config)
 
     setLazyInvocation(lazyInvocation)
 
     return {
       ngModule:  FirebaseModule,
-      providers: [
-        { provide: FIREBASE_APP_CONFIGS, useValue: config },
-        Firebase
-      ]
-    }
-  }
-}
-
-@Injectable()
-export class Firebase {
-
-  static lastInstanceId: number = -1
-
-  apps: { [appName: string]: {
-    auth: FirebaseAuthService,
-    database: FirebaseDatabaseService
-  }} = {}
-
-  private instId: number
-  private defaultAppName: string
-
-  static getProjectName(config: FirebaseAppConfig): string {
-    return config.config.authDomain.split('.')[0]
-  }
-
-  constructor(@Inject(FIREBASE_APP_CONFIGS) private configs: FirebaseAppConfig[],
-              private ngZone: NgZone,
-              @Inject(firebaseLogger) @Optional() private logger: Logger) {
-    this.instId         = ++Firebase.lastInstanceId
-    this.defaultAppName = `default-${this.instId}`
-
-    this.logger = this.logger || { info() {} } as any
-
-    configs.forEach(config => {
-      const name = config.name || this.defaultAppName
-      this.logger.info(`Setting up project "${Firebase.getProjectName(config)}" as app "${name}"`)
-
-      if (this.hasApp(name)) {
-        throw new Error(`Firebase: App with name: "${name}" already exists.`)
-      }
-
-      let app         = firebase.initializeApp(config.config, name)
-      this.apps[name] = {
-        auth:     new FirebaseAuthService(app.auth() as FirebaseAuth, this.ngZone),
-        database: new FirebaseDatabaseService(app.database() as FirebaseDatabase, this.ngZone)
-      }
-    })
-  }
-
-  auth(appName = this.defaultAppName): FirebaseAuthService {
-    this.assertAppExists(appName)
-    return this.apps[appName].auth
-  }
-
-  database(appName = this.defaultAppName): FirebaseDatabaseService {
-    this.assertAppExists(appName)
-    return this.apps[appName].database
-  }
-
-  private assertAppExists(appName: string) {
-    if (!this.apps[appName]) {
-      throw new Error(`Firebase app: ${appName} does not exist.'`)
+      providers: this.getProviders(config)
     }
   }
 
-  private hasApp(appName: string): boolean {
-    return (firebase.apps as Array<firebase.app.App>).some(app => app.name === appName)
+  static validateConfig(config: FirebaseAppConfig[]) {
+    const defaultApps = config.filter(config => !config.token)
+    if (defaultApps.length > 1) {
+      throw new Error('There can only be one default Firebase App')
+    }
+  }
+
+  static getProviders(config: FirebaseAppConfig[]): Provider[] {
+    const defaultApp     = config.filter(config => !config.token)[0]
+    const additionalApps = config.filter(config => !!config.token)
+
+    return [
+      {
+        provide:    FirebaseApp,
+        useFactory: (injector: Injector) => new FirebaseApp(defaultApp, injector),
+        deps:       [Injector]
+      },
+      {
+        provide:    FirebaseAuth,
+        useFactory: (firebaseApp: FirebaseApp) => firebaseApp.auth(),
+        deps:       [FirebaseApp]
+      },
+      {
+        provide:    FirebaseDatabase,
+        useFactory: (firebaseApp: FirebaseApp) => firebaseApp.database(),
+        deps:       [FirebaseApp]
+      },
+      ...additionalApps.map(config => ({
+        provide:    config.token,
+        useFactory: (injector: Injector) => new FirebaseApp(config, injector),
+        deps:       [Injector]
+      }))
+    ]
   }
 }

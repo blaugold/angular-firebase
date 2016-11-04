@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core'
 import { Observable, BehaviorSubject } from 'rxjs'
 import { AuthProvider, User, UserCredential, AuthCredential } from './reexports'
-import { FirebaseAuth, FirebaseError } from './firebase.service'
+import { NativeFirebaseAuth, FirebaseError } from './native-firebase'
 import { wrapPromise } from './utils'
 import './add/run-in-zone'
 
@@ -134,11 +134,11 @@ export interface ActionCodeInfo {
 }
 
 @Injectable()
-export class FirebaseAuthService {
+export class FirebaseAuth {
 
   $user: Observable<UserAuthEvent>
 
-  constructor(private fbAuth: FirebaseAuth, private ngZone: NgZone) {
+  constructor(private fbAuth: NativeFirebaseAuth, private ngZone: NgZone) {
     this.$user = new BehaviorSubject<UserAuthEvent>('pending')
 
     new Observable<User | null>(sub => fbAuth.onAuthStateChanged(

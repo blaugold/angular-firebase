@@ -1,68 +1,82 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, inject } from '@angular/core/testing'
-import { FirebaseModule, Firebase } from './firebase.module'
 import { Observable } from 'rxjs'
 
-import { Event } from './firebase-database.service'
+import { FirebaseAppConfig, FirebaseApp } from './firebase-app.service'
+import { FirebaseModule } from './firebase.module'
+import { FirebaseDatabase } from './firebase-database.service'
+
+let firebaseApp: FirebaseApp
 
 describe('Service: FirebaseDatabase', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [FirebaseModule.forRoot([{ config: firebaseConfig }])],
+      imports: [FirebaseModule.forRoot([new FirebaseAppConfig({ options: firebaseConfig })])],
     });
+
+    firebaseApp = TestBed.get(FirebaseApp)
   });
 
-  beforeEach(done => inject([Firebase], (fb: Firebase) => {
-    expectObservableToComplete(done, fb.database().ref().set(null))
+  afterEach(done => {
+    firebaseApp.delete().toPromise().then(done, done)
+  })
+
+  beforeEach(done => inject([FirebaseDatabase], (fb: FirebaseDatabase) => {
+    expectObservableToComplete(done, fb.ref().set(null))
   })())
 
-  it('should set node', done => inject([Firebase],
-    (fb: Firebase) => {
-      const ref = fb.database().ref('foo')
+  it('should provide default FirebaseDatabase', inject([FirebaseDatabase],
+    (fb: FirebaseDatabase) => {
+      expect(fb).toBe(firebaseApp.database())
+    }))
+
+  it('should set node', done => inject([FirebaseDatabase],
+    (fb: FirebaseDatabase) => {
+      const ref = fb.ref('foo')
       expectObservableToComplete(done,
         ref.set('bar')
-          .mergeMapTo(ref.once(Event.Value).val())
+          .mergeMapTo(ref.onceValue().val())
           .do(val => expect(val).toBe('bar'))
       )
     })())
 
-  it('should update node', done => inject([Firebase],
-    (fb: Firebase) => {
-      const ref = fb.database().ref('foo')
+  it('should update node', done => inject([FirebaseDatabase],
+    (fb: FirebaseDatabase) => {
+      const ref = fb.ref('foo')
       expectObservableToComplete(done,
         ref.set({ a: 'A', b: 'B' })
           .mergeMapTo(ref.update({ a: 'AA', c: 'C' }))
-          .mergeMapTo(ref.once(Event.Value).val())
+          .mergeMapTo(ref.onceValue().val())
           .do(node => expect(node).toEqual({ a: 'AA', b: 'B', c: 'C' }))
       )
     })())
 
-  it('push node', done => inject([Firebase],
-    (fb: Firebase) => {
-      const parent  = fb.database().ref('foo')
+  it('push node', done => inject([FirebaseDatabase],
+    (fb: FirebaseDatabase) => {
+      const parent  = fb.ref('foo')
       const newNode = { a: 'A', b: 'B' }
       expectObservableToComplete(done,
         parent.push(newNode)
-          .mergeMap(child => child.once(Event.Value).val())
+          .mergeMap(child => child.onceValue().val())
           .do(node => expect(node).toEqual(newNode))
       )
     })())
 
-  it('listen to updates', done => inject([Firebase],
-    (fb: Firebase) => {
-      const node = fb.database().ref().child('foo')
+  it('listen to updates', done => inject([FirebaseDatabase],
+    (fb: FirebaseDatabase) => {
+      const node = fb.ref().child('foo')
 
       expectObservableToComplete(done,
-        node.on(Event.Value).take(2)
+        node.onValue().take(2)
       )
 
       Observable.concat(node.set('a'), node.set('b')).subscribe()
     })())
 
-  it('orderByChild', done => inject([Firebase],
-    (fb: Firebase) => {
-      const node     = fb.database().ref('foo')
+  it('orderByChild', done => inject([FirebaseDatabase],
+    (fb: FirebaseDatabase) => {
+      const node     = fb.ref('foo')
       const nodeData = {
         c: { c: 'c' },
         a: { c: 'a' },
@@ -72,7 +86,7 @@ describe('Service: FirebaseDatabase', () => {
       expectObservableToComplete(done,
         node.set(nodeData)
           .mergeMapTo(node.orderByChild('c')
-            .once(Event.Value)
+            .onceValue()
             .children()
           )
           .mergeMap(childrenSnapshot => childrenSnapshot.val())
@@ -86,9 +100,9 @@ describe('Service: FirebaseDatabase', () => {
       )
     })())
 
-  it('observable ops', done => inject([Firebase],
-    (fb: Firebase) => {
-      const node     = fb.database().ref().child('foo')
+  it('observable ops', done => inject([FirebaseDatabase],
+    (fb: FirebaseDatabase) => {
+      const node     = fb.ref().child('foo')
       const nodeData = {
         a: {
           b: 'b',
@@ -97,7 +111,7 @@ describe('Service: FirebaseDatabase', () => {
           }
         },
       }
-      const srcObs   = node.once(Event.Value)
+      const srcObs   = node.onceValue()
       expectObservableToComplete(done,
         node.set(nodeData).mergeMapTo(Observable.combineLatest(
           srcObs.exists().do(exists => expect(exists).toBeTruthy()),
