@@ -1,6 +1,6 @@
 {
   "name": "@blaugold/angular-firebase",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Wrapper around Firebase JS-API for Angular 2 Apps.",
   "keywords": [
     "Firebase",
