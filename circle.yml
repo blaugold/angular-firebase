@@ -20,6 +20,7 @@ dependencies:
 
 deployment:
   production:
-    branch: master
+    tag: /v\N\.\N\.\N/
+    owner: blaugold
     commands:
-      - npm run coveralls
+      - npm run build && npm publish release && npm run coveralls
