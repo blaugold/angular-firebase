@@ -26,7 +26,8 @@ module.exports = function (karma) {
 
         remapIstanbulReporter: {
             reports: {
-                html: 'coverage'
+                html: 'coverage',
+                lcovonly: 'coverage/lcov.info'
             }
         },
 

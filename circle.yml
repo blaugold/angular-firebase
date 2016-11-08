@@ -1,6 +1,12 @@
+general:
+  artifacts:
+    - coverage
+
 machine:
   environment:
     PATH: $PATH:$HOME/.yarn/bin
+    COVERALLS_SERVICE_NAME: circleci
+    COVERALLS_SERVICE_JOB_ID: $CIRCLE_BUILD_NUM
   post:
     - sudo apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg
     - echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
@@ -11,3 +17,7 @@ dependencies:
     - yarn
   post:
     - npm run fix
+
+deployment:
+  post:
+    - npm run coveralls

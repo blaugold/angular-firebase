@@ -14,6 +14,8 @@
     "node": ">=5.0.0"
   },
   "scripts": {
+    "coveralls": "coveralls",
+    "upload-coverage": "coveralls < coverage/lcov.info",
     "fix": "cpy karma-remap-istanbul-fix/index.js node_modules/karma-remap-istanbul",
     "karma": "karma start",
     "test": "npm run karma -- --single-run",
@@ -46,6 +48,7 @@
     "@types/node": "^6.0.46",
     "awesome-typescript-loader": "^2.2.4",
     "core-js": "^2.4.1",
+    "coveralls": "^2.11.14",
     "cpy-cli": "^1.0.1",
     "istanbul-instrumenter-loader": "^0.2.0",
     "jasmine": "^2.5.2",
