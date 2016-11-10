@@ -4,6 +4,7 @@ import { FirebaseAuth } from './firebase-auth.service'
 import { FirebaseDatabase } from './firebase-database.service'
 import { FirebaseAppConfig, FirebaseApp } from './firebase-app.service'
 
+/** @internal */
 let lazyInvocation = true
 
 export function invokeLazy(): boolean {

@@ -5,9 +5,9 @@ import { database } from 'firebase'
 import { NativeFirebaseDatabase } from './native-firebase'
 import { wrapPromise } from './utils'
 import { DataSnapshot } from './reexports'
-import { DataSnapshotObservable } from './data-snapshot-observable'
+import { DataSnapshotObservable } from './observable/data-snapshot-observable'
 
-import './add/run-in-zone'
+import './observable/add/run-in-zone'
 
 export type NativeDatabaseRef = database.Reference
 export type Query = database.Query

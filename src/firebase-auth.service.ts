@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs'
 import { AuthProvider, User, UserCredential, AuthCredential } from './reexports'
 import { NativeFirebaseAuth, FirebaseError } from './native-firebase'
 import { wrapPromise } from './utils'
-import './add/run-in-zone'
+import './observable/add/run-in-zone'
 
 export type UserAuthEvent = User | null | 'pending'
 

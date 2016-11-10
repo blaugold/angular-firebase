@@ -1,5 +1,5 @@
 import { auth, User as FbUser } from 'firebase'
-import { ExtendedDataSnapshot } from './data-snapshot-observable'
+import { ExtendedDataSnapshot } from './observable/data-snapshot-observable'
 
 export type DataSnapshot = ExtendedDataSnapshot
 export type User = FbUser
