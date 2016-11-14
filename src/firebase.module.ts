@@ -28,14 +28,14 @@ export class FirebaseModule {
     }
   }
 
-  static validateConfig(config: FirebaseAppConfig[]) {
+  private static validateConfig(config: FirebaseAppConfig[]) {
     const defaultApps = config.filter(config => !config.token)
     if (defaultApps.length > 1) {
       throw new Error('There can only be one default Firebase App')
     }
   }
 
-  static getProviders(config: FirebaseAppConfig[]): Provider[] {
+  private static getProviders(config: FirebaseAppConfig[]): Provider[] {
     const defaultApp     = config.filter(config => !config.token)[0]
     const additionalApps = config.filter(config => !!config.token)
 
