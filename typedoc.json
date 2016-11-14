@@ -16,5 +16,6 @@
   "excludePrivate": true,
   "excludeExternals": false,
   "excludeNotExported": true,
-  "pretty": true
+  "pretty": true,
+  "gaID": "UA-87346670-1"
 }

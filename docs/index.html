@@ -66,13 +66,63 @@
 				<p><a href="https://circleci.com/gh/blaugold/angular-firebase"><img src="https://circleci.com/gh/blaugold/angular-firebase.svg?style=svg&amp;circle-token=bf5f61f7f9737852ea53e4e80981312624078636" alt="CircleCI"></a></p>
 				<p>Wrapper around Firebase JS-API for Angular 2 Apps.</p>
 				<p>The library runs Firebase calls in the angular zone to make change detection work. It is focused on
-					observables and returns them for every async operation. To make working with observables and
+					observables and returns them for every operation. To make working with observables and
 					Firebase easier, the returned observables are extended with helper operators and aliases to snapshot
 				methods.</p>
 				<p>At the moment Auth and Database are almost completely implemented.</p>
+				<p><strong><a href="https://blaugold.github.io/angular-firebase/index.html">Reference</a></strong></p>
 				<h2 id="installation">Installation</h2>
 				<pre><code>    <span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">i</span> <span class="hljs-selector-tag">--save</span> @<span class="hljs-keyword">blaugold</span>/<span class="hljs-keyword">angular</span>-<span class="hljs-keyword">firebase</span>
-</code></pre><h2 id="operation-invocation">Operation Invocation</h2>
+</code></pre><h2 id="usage">Usage</h2>
+				<p>For most apps, which only use one firebase project, add the <code>FirebaseModule</code> to your root module.</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { FirebaseModule, FirebaseAppConfig } from <span class="hljs-string">'@blaugold/angular-firebase'</span>
+
+@NgModule({
+    imports: [
+        FirebaseModule.forRoot([<span class="hljs-keyword">new</span> FirebaseAppConfig({
+            options: {
+                apiKey: <span class="hljs-string">'&lt;your-api-key&gt;'</span>,
+                authDomain: <span class="hljs-string">'&lt;your-auth-domain&gt;'</span>,
+                databaseURL: <span class="hljs-string">'&lt;your-database-url&gt;'</span>,
+                storageBucket: <span class="hljs-string">'&lt;your-storage-bucket&gt;'</span>,
+                messagingSenderId: <span class="hljs-string">'&lt;your-messaging-sender-id&gt;'</span>
+            }
+        })])
+    ]
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> AppModule {}
+</code></pre>
+				<p>In your service or component inject <code>FirebaseDatabase</code> and <code>FirebaseAuth</code>:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> todoLists = <span class="hljs-string">'todoLists'</span>
+
+@Injectable()
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> TodoService {
+
+    <span class="hljs-keyword">constructor</span>(private db: FirebaseDatabase) {}
+
+    addItem(listId: <span class="hljs-built_in">string</span>, item: TodoItem): Observable&lt;<span class="hljs-built_in">void</span>&gt; {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.db.ref(todoLists).child(listId).push()
+            .mergeMap(ref =&gt; {
+                <span class="hljs-comment">// Add key as id to item for easier access to id in components</span>
+                item.id = ref.key
+                <span class="hljs-keyword">return</span> ref.set(item)
+            })
+    }
+
+    <span class="hljs-comment">// Returns observable of array of 10 last TodoItems </span>
+    onList(listId: <span class="hljs-built_in">string</span>): Observable&lt;TodoItem[]&gt; {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.db.ref(todoLists).child(listId)
+            .limitToLast(<span class="hljs-number">10</span>)
+            <span class="hljs-comment">// Emits list every time there is a change.</span>
+            .onValue()
+            <span class="hljs-comment">// Calls .val() on all children and returns them in an array.</span>
+            .toValArray&lt;TodoItem&gt;()
+    }
+}
+</code></pre>
+				<p>The api mirrors closely how the Firebase Web-API works. The biggest difference is that all
+				operations return observables. To get an overview of the api, take a look at <a href="https://blaugold.github.io/angular-firebase/classes/firebasedatabaseref.html"><code>FirebaseDatabaseRef</code></a>, <a href="https://blaugold.github.io/angular-firebase/classes/datasnapshotobservable.html"><code>DataSnapshotObservable</code></a>, <a href="https://blaugold.github.io/angular-firebase/classes/firebaseauth.html"><code>FirebaseAuth</code></a> and <a href="https://blaugold.github.io/angular-firebase/classes/firebasedatabase.html"><code>FirebaseDatabase</code></a>.</p>
+				<h2 id="operation-invocation">Operation Invocation</h2>
 				<p>Since the library focuses on observables all operations are invoked lazily as is usually the case
 					with observables. This means for example, calling <code>someRef.set({ foo: &#39;bar&#39; })</code> will do nothing
 				without either subscribing to the returned observable or calling <code>toPromise()</code> on it.</p>
@@ -322,5 +372,14 @@
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
 <script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+<script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-87346670-1', '');
+        ga('send', 'pageview');
+    </script>
 </body>
 </html>
