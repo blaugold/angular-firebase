@@ -21,7 +21,8 @@ export class FirebaseAppConfig {
   }
 
   constructor(config: {
-    name?: string,
+    token?: any
+    name?: string
     options: {
       apiKey: string
       authDomain?: string
@@ -30,6 +31,7 @@ export class FirebaseAppConfig {
       messagingSenderId?: string
     }
   }) {
+    this.token   = config.token
     this.name    = config.name || `app-${lastAppId++}`
     this.options = config.options
   }

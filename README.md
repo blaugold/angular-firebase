@@ -73,6 +73,35 @@ export class TodoService {
 The api mirrors closely how the Firebase Web-API works. The biggest difference is that all 
 operations return observables. To get an overview of the api, take a look at [`FirebaseDatabaseRef`](https://blaugold.github.io/angular-firebase/classes/firebasedatabaseref.html), [`DataSnapshotObservable`](https://blaugold.github.io/angular-firebase/classes/datasnapshotobservable.html), [`FirebaseAuth`](https://blaugold.github.io/angular-firebase/classes/firebaseauth.html) and [`FirebaseDatabase`](https://blaugold.github.io/angular-firebase/classes/firebasedatabase.html).
 
+## Multiple Projects
+For every project a `FirebaseApp` instance is created. The default project app is injected when
+requesting `FirebaseApp`. The default app's `FirebaseDatabase` and `FirebaseAuth`
+are available like this as well. To get additional apps set a token in the `FirebaseAppConfig`
+and use this token with `@Inject(token)` in a constructor:
+```typescript
+const secondAppToken = new OpaqueToken('Second App')
+
+// Default project
+new FirebaseAppConfig({ options: defaultProjectConfig })
+// Second project
+new FirebaseAppConfig({ token: secondAppToken, options: secondProjectConfig })
+
+@Component(...)
+class AppComponent {
+    
+    constructor(@Inject(secondAppToken) app: FirebaseApp,
+                defaultApp: FirebaseApp,
+                defaultDb: FirebaseDatabase,
+                defaultAuth: FirebaseAuth) {
+        const db = app.database()
+        const auth = app.auth()
+    }
+    
+}
+```
+ 
+
+
 ## Operation Invocation
 Since the library focuses on observables all operations are invoked lazily as is usually the case 
 with observables. This means for example, calling `someRef.set({ foo: 'bar' })` will do nothing 
@@ -87,5 +116,5 @@ by calling `FirebaseModule.forRoot(config, false)`
 - wrap onDisconnect class to include methods in change detection
 - Storage
 - Messaging
-- Tests
+- More Tests
 
