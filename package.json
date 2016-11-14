@@ -68,5 +68,16 @@
     "typescript": "^2.0.6",
     "webpack": "^2.1.0-beta.25",
     "zone.js": "^0.6.26"
-  }
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blaugold/angular-firebase.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blaugold/angular-firebase/issues"
+  },
+  "homepage": "https://github.com/blaugold/angular-firebase#readme"
 }
