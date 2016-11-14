@@ -122,6 +122,31 @@
 </code></pre>
 				<p>The api mirrors closely how the Firebase Web-API works. The biggest difference is that all
 				operations return observables. To get an overview of the api, take a look at <a href="https://blaugold.github.io/angular-firebase/classes/firebasedatabaseref.html"><code>FirebaseDatabaseRef</code></a>, <a href="https://blaugold.github.io/angular-firebase/classes/datasnapshotobservable.html"><code>DataSnapshotObservable</code></a>, <a href="https://blaugold.github.io/angular-firebase/classes/firebaseauth.html"><code>FirebaseAuth</code></a> and <a href="https://blaugold.github.io/angular-firebase/classes/firebasedatabase.html"><code>FirebaseDatabase</code></a>.</p>
+				<h2 id="multiple-projects">Multiple Projects</h2>
+				<p>For every project a <code>FirebaseApp</code> instance is created. The default project app is injected when
+					requesting <code>FirebaseApp</code>. The default app&#39;s <code>FirebaseDatabase</code> and <code>FirebaseAuth</code>
+					are available like this as well. To get additional apps set a token in the <code>FirebaseAppConfig</code>
+				and use this token with <code>@Inject(token)</code> in a constructor:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> secondAppToken = <span class="hljs-keyword">new</span> OpaqueToken(<span class="hljs-string">'Second App'</span>)
+
+<span class="hljs-comment">// Default project</span>
+<span class="hljs-keyword">new</span> FirebaseAppConfig({ options: defaultProjectConfig })
+<span class="hljs-comment">// Second project</span>
+<span class="hljs-keyword">new</span> FirebaseAppConfig({ token: secondAppToken, options: secondProjectConfig })
+
+@Component(...)
+<span class="hljs-keyword">class</span> AppComponent {
+
+    <span class="hljs-keyword">constructor</span>(@Inject(secondAppToken) app: FirebaseApp,
+                defaultApp: FirebaseApp,
+                defaultDb: FirebaseDatabase,
+                defaultAuth: FirebaseAuth) {
+        <span class="hljs-keyword">const</span> db = app.database()
+        <span class="hljs-keyword">const</span> auth = app.auth()
+    }
+
+}
+</code></pre>
 				<h2 id="operation-invocation">Operation Invocation</h2>
 				<p>Since the library focuses on observables all operations are invoked lazily as is usually the case
 					with observables. This means for example, calling <code>someRef.set({ foo: &#39;bar&#39; })</code> will do nothing
@@ -135,7 +160,7 @@
 					<li>wrap onDisconnect class to include methods in change detection</li>
 					<li>Storage</li>
 					<li>Messaging</li>
-					<li>Tests</li>
+					<li>More Tests</li>
 				</ul>
 			</div>
 		</div>
