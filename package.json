@@ -64,7 +64,7 @@
     "sourcemap-istanbul-instrumenter-loader": "^0.2.0",
     "standard-version": "^3.0.0",
     "typedoc": "^0.5.1",
-    "typescript": "^2.0.6",
+    "typescript": "2.0.x",
     "webpack": "^2.1.0-beta.25",
     "zone.js": "^0.6.26"
   },
