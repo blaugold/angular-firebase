@@ -24,7 +24,10 @@ if (coverage) {
 const rules = [{
     test: /\.ts$/,
     loader: 'awesome-typescript-loader',
-    exclude: /node_modules/
+    exclude: /node_modules/,
+    query: {
+        useBabel: true
+    }
 }];
 
 if (coverage) {

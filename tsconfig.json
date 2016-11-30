@@ -7,10 +7,11 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "lib": ["es2015", "dom"],
-    "target": "es5",
+    "target": "es6",
     "types": [
       "node",
-      "jasmine"
+      "jasmine",
+      "zone.js"
     ]
   },
   "exclude": [

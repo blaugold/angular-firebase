@@ -49,6 +49,8 @@
     "@types/jasmine": "^2.5.37",
     "@types/node": "^6.0.46",
     "awesome-typescript-loader": "^2.2.4",
+    "babel-core": "^6.18.2",
+    "babel-preset-es2017": "^6.16.0",
     "core-js": "^2.4.1",
     "coveralls": "^2.11.14",
     "cpy-cli": "^1.0.1",

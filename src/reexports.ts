@@ -1,11 +1,9 @@
-import { auth, User as FbUser } from 'firebase'
+import { auth } from 'firebase'
 import { ExtendedDataSnapshot } from './observable/data-snapshot-observable'
 
 export type DataSnapshot = ExtendedDataSnapshot
-export type User = FbUser
 
 export type AuthProvider = auth.AuthProvider
-export type UserCredential = auth.UserCredential
 export type AuthCredential = auth.AuthCredential
 
 export class GoogleAuthProvider extends auth.GoogleAuthProvider {}

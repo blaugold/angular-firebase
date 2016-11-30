@@ -1,11 +1,12 @@
 import { Injectable, NgZone } from '@angular/core'
 import { Observable, BehaviorSubject } from 'rxjs'
-import { AuthProvider, User, UserCredential, AuthCredential } from './reexports'
+import { AuthProvider, AuthCredential } from './reexports'
 import { NativeFirebaseAuth, FirebaseError } from './native-firebase'
 import { wrapPromise } from './utils'
 import './observable/add/run-in-zone'
+import { FirebaseUser, FirebaseUserCredential } from './firebase-user'
 
-export type UserAuthEvent = User | null | 'pending'
+export type UserAuthEvent = FirebaseUser | null | 'pending'
 
 export type AuthErrorCodeType = 'auth/app-deleted '
   | 'auth/app-not-authorized'
@@ -141,8 +142,8 @@ export class FirebaseAuth {
   constructor(private fbAuth: NativeFirebaseAuth, private ngZone: NgZone) {
     this.$user = new BehaviorSubject<UserAuthEvent>('pending')
 
-    new Observable<User | null>(sub => fbAuth.onAuthStateChanged(
-      user => sub.next(user),
+    new Observable<FirebaseUser | null>(sub => fbAuth.onAuthStateChanged(
+      user => sub.next(user ? new FirebaseUser(user) : null),
       err => sub.error(err),
       () => sub.complete()
     ))
@@ -179,11 +180,12 @@ export class FirebaseAuth {
    *
    * @param email
    * @param password
-   * @returns {Observable<User>} - Returns {@link CreateUserWithEmailAndPasswordError} if operation
+   * @returns {Observable<FirebaseUser>} - Returns {@link CreateUserWithEmailAndPasswordError} if operation
    *     fails.
    */
-  createUserWithEmailAndPassword(email: string, password: string): Observable<User> {
-    return wrapPromise<User>(() => this.fbAuth.createUserWithEmailAndPassword(email, password))
+  createUserWithEmailAndPassword(email: string, password: string): Observable<FirebaseUser> {
+    return wrapPromise(() => this.fbAuth.createUserWithEmailAndPassword(email, password))
+      .map(user => new FirebaseUser(user));
   }
 
   /**
@@ -197,11 +199,12 @@ export class FirebaseAuth {
   }
 
   /**
-   * @returns {Observable<UserCredential>} - Returns {@link GetRedirectResultError} if operation
+   * @returns {Observable<FirebaseUserCredential>} - Returns {@link GetRedirectResultError} if operation
    *     fails.
    */
-  getRedirectResult(): Observable<UserCredential> {
-    return wrapPromise<UserCredential>(() => this.fbAuth.getRedirectResult())
+  getRedirectResult(): Observable<FirebaseUserCredential> {
+    return wrapPromise(() => this.fbAuth.getRedirectResult())
+      .map(cred => new FirebaseUserCredential(cred));
   }
 
   /**
@@ -214,52 +217,58 @@ export class FirebaseAuth {
 
   /**
    *
-   * @returns {Observable<User>} - Returns {@link SignInAnonymouslyError} if operation fails.
+   * @returns {Observable<FirebaseUser>} - Returns {@link SignInAnonymouslyError} if operation fails.
    */
-  signInAnonymously(): Observable<User> {
-    return wrapPromise<User>(() => this.fbAuth.signInAnonymously())
+  signInAnonymously(): Observable<FirebaseUser> {
+    return wrapPromise(() => this.fbAuth.signInAnonymously())
+      .map(user => new FirebaseUser(user));
   }
 
   /**
    * @param credential
-   * @returns {Observable<User>} - Returns {@link SignInWithCredentialError} if operation fails.
+   * @returns {Observable<FirebaseUser>} - Returns {@link SignInWithCredentialError} if operation fails.
    */
-  signInWithCredential(credential: AuthCredential): Observable<User> {
-    return wrapPromise<User>(() => this.fbAuth.signInWithCredential(credential))
+  signInWithCredential(credential: AuthCredential): Observable<FirebaseUser> {
+    return wrapPromise(() => this.fbAuth.signInWithCredential(credential))
+      .map(user => new FirebaseUser(user));
   }
 
   /**
    * @param token
-   * @returns {Observable<User>} - Returns {@link SignInWithCustomTokenError} if operation fails.
+   * @returns {Observable<FirebaseUser>} - Returns {@link SignInWithCustomTokenError} if operation fails.
    */
-  signInWithCustomToken(token: string): Observable<User> {
-    return wrapPromise<User>(() => this.fbAuth.signInWithCustomToken(token))
+  signInWithCustomToken(token: string): Observable<FirebaseUser> {
+    return wrapPromise(() => this.fbAuth.signInWithCustomToken(token))
+      .map(user => new FirebaseUser(user));
   }
 
   /**
    * @param email
    * @param password
-   * @returns {Observable<User>} - Returns {@link SignInWithEmailAndPasswordError} if operation
+   * @returns {Observable<FirebaseUser>} - Returns {@link SignInWithEmailAndPasswordError} if operation
    *     fails.
    */
-  signInWithEmailAndPassword(email: string, password: string): Observable<User> {
-    return wrapPromise<User>(() => this.fbAuth.signInWithEmailAndPassword(email, password))
+  signInWithEmailAndPassword(email: string, password: string): Observable<FirebaseUser> {
+    return wrapPromise(() => this.fbAuth.signInWithEmailAndPassword(email, password))
+      .map(user => new FirebaseUser(user));
   }
 
   /**
    * @param provider
-   * @returns {Observable<User>} - Returns {@link SignInWithPopupError} if operation fails.
+   * @returns {Observable<FirebaseUser>} - Returns {@link SignInWithPopupError} if operation fails.
    */
-  signInWithPopup(provider: AuthProvider): Observable<UserCredential> {
-    return wrapPromise<UserCredential>(() => this.fbAuth.signInWithPopup(provider))
+  signInWithPopup(provider: AuthProvider): Observable<FirebaseUserCredential> {
+    return wrapPromise(() => this.fbAuth.signInWithPopup(provider))
+      .map(cred => new FirebaseUserCredential(cred));
   }
 
   /**
    * @param provider
-   * @returns {Observable<User>} - Returns {@link SignInWithRedirectError} if operation fails.
+   * @returns {Observable<FirebaseUser>} - Returns {@link SignInWithRedirectError} if operation fails.
    */
-  signInWithRedirect(provider: AuthProvider): Observable<UserCredential> {
-    return wrapPromise<UserCredential>(() => this.fbAuth.signInWithRedirect(provider))
+  signInWithRedirect(provider: AuthProvider): Observable<FirebaseUserCredential> {
+    return wrapPromise(() => this.fbAuth.signInWithRedirect(provider))
+      .map(cred => new FirebaseUserCredential(cred));
   }
 
   signOut(): Observable<void> {

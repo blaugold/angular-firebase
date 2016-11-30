@@ -112,9 +112,7 @@ called. It is possible to globally configure the library to behave like the nati
 by calling `FirebaseModule.forRoot(config, false)`
 
 ## TODO
-- wrap User class to include methods in change detection
 - wrap onDisconnect class to include methods in change detection
 - Storage
 - Messaging
-- More Tests
 

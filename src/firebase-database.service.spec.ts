@@ -7,6 +7,8 @@ import { FirebaseAppConfig, FirebaseApp } from './firebase-app.service'
 import { FirebaseModule } from './firebase.module'
 import { FirebaseDatabase } from './firebase-database.service'
 import { DataSnapshot } from './reexports'
+import { NgZone } from '@angular/core'
+import { awaitPromise } from './utils.spec'
 
 let firebaseApp: FirebaseApp
 
@@ -40,6 +42,17 @@ describe('Service: FirebaseDatabase', () => {
           .mergeMapTo(ref.onceValue().val())
           .do(val => expect(val).toBe('bar'))
       )
+    })())
+
+  it('should wrap callbacks to stay in current zone', done => inject([FirebaseDatabase, NgZone],
+    (fb: FirebaseDatabase, zone: NgZone) => {
+      zone.run(() => {
+        const angularZone = Zone.current
+        fb.ref('foo')
+          .onceValue()
+          .do(() => expect(Zone.current).toBe(angularZone))
+          .subscribe(() => done(), err => fail(err))
+      })
     })())
 
   it('should update node', done => inject([FirebaseDatabase],
