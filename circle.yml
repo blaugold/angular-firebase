@@ -15,12 +15,12 @@ machine:
 dependencies:
   override:
     - yarn
-  post:
-    - npm run fix
 
 deployment:
   production:
     tag: /v\N\.\N\.\N/
     owner: blaugold
     commands:
-      - npm run build && npm publish release && npm run coveralls
+      - npm run build
+      - npm publish release
+      - npm run coveralls
