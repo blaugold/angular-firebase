@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>NativeFirebaseDatabase | @blaugold/angular-firebase</title>
+	<title>LinkUserError | @blaugold/angular-firebase</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="nativefirebasedatabase.html">NativeFirebaseDatabase</a>
+					<a href="linkusererror.html">LinkUserError</a>
 				</li>
 			</ul>
-			<h1>Class NativeFirebaseDatabase</h1>
+			<h1>Interface LinkUserError</h1>
 		</div>
 	</div>
 </header>
@@ -68,14 +68,13 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">NativeFirebaseDatabase</span>
+						<a href="firebaseerror.html" class="tsd-signature-type">FirebaseError</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">LinkUserError</span>
+							</li>
+						</ul>
 					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel">
-				<h3>Implements</h3>
-				<ul class="tsd-hierarchy">
-					<li><span class="tsd-signature-type">Database</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -85,16 +84,10 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="nativefirebasedatabase.html#app" class="tsd-kind-icon">app</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section tsd-is-external">
-							<h3>Methods</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="nativefirebasedatabase.html#gooffline" class="tsd-kind-icon">go<wbr>Offline</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="nativefirebasedatabase.html#goonline" class="tsd-kind-icon">go<wbr>Online</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="nativefirebasedatabase.html#ref" class="tsd-kind-icon">ref</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="nativefirebasedatabase.html#reffromurl" class="tsd-kind-icon">ref<wbr>FromURL</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external"><a href="linkusererror.html#code" class="tsd-kind-icon">code</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="linkusererror.html#message" class="tsd-kind-icon">message</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="linkusererror.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external"><a href="linkusererror.html#stack" class="tsd-kind-icon">stack</a></li>
 							</ul>
 						</section>
 					</div>
@@ -102,98 +95,52 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
-					<a name="app" class="tsd-anchor"></a>
-					<h3>app</h3>
-					<div class="tsd-signature tsd-kind-icon">app<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">App</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
+					<a name="code" class="tsd-anchor"></a>
+					<h3>code</h3>
+					<div class="tsd-signature tsd-kind-icon">code<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"auth/provider-already-linked"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"auth/invalid-credential"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"auth/credential-already-in-use"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"auth/email-already-in-use"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"auth/operation-not-allowed"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"auth/invalid-email"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"auth/wrong-password"</span></div>
 					<aside class="tsd-sources">
+						<p>Overrides <a href="firebaseerror.html">FirebaseError</a>.<a href="firebaseerror.html#code">code</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/db531da/src/native-firebase.ts#L60">src/native-firebase.ts:60</a></li>
+							<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/db531da/src/firebase-user.ts#L25">src/firebase-user.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-external">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-					<a name="gooffline" class="tsd-anchor"></a>
-					<h3>go<wbr>Offline</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">go<wbr>Offline<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/db531da/src/native-firebase.ts#L62">src/native-firebase.ts:62</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
-						</li>
-					</ul>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
+					<a name="message" class="tsd-anchor"></a>
+					<h3>message</h3>
+					<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="firebaseerror.html">FirebaseError</a>.<a href="firebaseerror.html#message">message</a></p>
+						<p>Overrides Error.message</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/db531da/src/native-firebase.ts#L73">src/native-firebase.ts:73</a></li>
+						</ul>
+					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-					<a name="goonline" class="tsd-anchor"></a>
-					<h3>go<wbr>Online</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">go<wbr>Online<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/db531da/src/native-firebase.ts#L64">src/native-firebase.ts:64</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
-						</li>
-					</ul>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="firebaseerror.html">FirebaseError</a>.<a href="firebaseerror.html#name">name</a></p>
+						<p>Overrides Error.name</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/db531da/src/native-firebase.ts#L74">src/native-firebase.ts:74</a></li>
+						</ul>
+					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-					<a name="ref" class="tsd-anchor"></a>
-					<h3>ref</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">ref<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Reference</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/db531da/src/native-firebase.ts#L66">src/native-firebase.ts:66</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> path: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Reference</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-					<a name="reffromurl" class="tsd-anchor"></a>
-					<h3>ref<wbr>FromURL</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">ref<wbr>FromURL<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Reference</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/db531da/src/native-firebase.ts#L68">src/native-firebase.ts:68</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>url: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Reference</span></h4>
-						</li>
-					</ul>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
+					<a name="stack" class="tsd-anchor"></a>
+					<h3>stack</h3>
+					<div class="tsd-signature tsd-kind-icon">stack<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="firebaseerror.html">FirebaseError</a>.<a href="firebaseerror.html#stack">stack</a></p>
+						<p>Overrides Error.stack</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/db531da/src/native-firebase.ts#L75">src/native-firebase.ts:75</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -209,23 +156,20 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-is-external">
-						<a href="nativefirebasedatabase.html" class="tsd-kind-icon">Native<wbr>Firebase<wbr>Database</a>
+					<li class="current tsd-kind-interface tsd-is-external">
+						<a href="linkusererror.html" class="tsd-kind-icon">Link<wbr>User<wbr>Error</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
-								<a href="nativefirebasedatabase.html#app" class="tsd-kind-icon">app</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
+								<a href="linkusererror.html#code" class="tsd-kind-icon">code</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="nativefirebasedatabase.html#gooffline" class="tsd-kind-icon">go<wbr>Offline</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
+								<a href="linkusererror.html#message" class="tsd-kind-icon">message</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="nativefirebasedatabase.html#goonline" class="tsd-kind-icon">go<wbr>Online</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
+								<a href="linkusererror.html#name" class="tsd-kind-icon">name</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="nativefirebasedatabase.html#ref" class="tsd-kind-icon">ref</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="nativefirebasedatabase.html#reffromurl" class="tsd-kind-icon">ref<wbr>FromURL</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited tsd-is-external">
+								<a href="linkusererror.html#stack" class="tsd-kind-icon">stack</a>
 							</li>
 						</ul>
 					</li>
