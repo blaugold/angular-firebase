@@ -11,6 +11,8 @@ export abstract class NativeFirebaseApp implements app.App {
   abstract delete(): firebase.Promise<any>;
 
   abstract storage(): firebase.storage.Storage;
+
+  abstract messaging(): firebase.messaging.Messaging;
 }
 
 export abstract class NativeFirebaseAuth implements auth.Auth {

@@ -7,7 +7,7 @@
     "experimentalDecorators": true,
     "module": "es2015",
     "moduleResolution": "node",
-    "noEmitOnError": false,
+    "noEmitOnError": true,
     "outDir": "./release",
     "rootDir": ".",
     "sourceMap": true,
@@ -17,12 +17,13 @@
       "dom"
     ],
     "target": "es5",
-    "skipLibCheck": true
+    "skipLibCheck": false
   },
   "files": [
     "index.ts"
   ],
   "angularCompilerOptions": {
-    "strictMetadataEmit": true
+    "strictMetadataEmit": true,
+    "genDir": "compiled"
   }
 }

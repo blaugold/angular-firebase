@@ -142,3 +142,4 @@ jspm_packages
 firebase.config.local.json
 /release
 *.ngfactory.ts
+/compiled

@@ -40,7 +40,7 @@ export class DataSnapshotObservable<T> extends Observable<ExtendedDataSnapshot> 
    */
   toValArray<C>(): Observable<C[]> {
     return this.children<C>()
-      .mergeMap<C[]>(children => children
+      .mergeMap(children => children
         .val()
         .toArray()
       )

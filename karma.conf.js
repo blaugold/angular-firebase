@@ -47,6 +47,10 @@ module.exports = function (karma) {
     karma.set({
         basePath: __dirname,
 
+        mime: {
+            'application/javascript': ['ts']
+        },
+
         frameworks: ['jasmine'],
 
         files: [{pattern: 'tests.bundle.ts', watched: false}],
