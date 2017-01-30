@@ -4,6 +4,7 @@ import { auth, User } from 'firebase'
 import { FirebaseError } from './native-firebase'
 import { AuthCredential } from './reexports'
 import { wrapPromise } from './utils'
+import { AuthErrorCodeType } from './firebase-auth.service'
 
 export type UserCredential = auth.UserCredential;
 
@@ -13,16 +14,18 @@ export class FirebaseUserCredential {
 
   constructor(cred: UserCredential) {
     this.credential = cred.credential;
-    this.user = cred.user ? new FirebaseUser(cred.user) : null;
+    this.user       = cred.user ? new FirebaseUser(cred.user) : null;
   }
 }
 
 export interface DeleteUserError extends FirebaseError {
-  code: 'auth/requires-recent-login'
+  code: AuthErrorCodeType
+    | 'auth/requires-recent-login'
 }
 
 export interface LinkUserError extends FirebaseError {
-  code: 'auth/provider-already-linked'
+  code: AuthErrorCodeType
+    | 'auth/provider-already-linked'
     | 'auth/invalid-credential'
     | 'auth/credential-already-in-use'
     | 'auth/email-already-in-use'
@@ -32,7 +35,8 @@ export interface LinkUserError extends FirebaseError {
 }
 
 export interface LinkUserWithPopupError extends FirebaseError {
-  code: 'auth/auth-domain-config-required'
+  code: AuthErrorCodeType
+    | 'auth/auth-domain-config-required'
     | 'auth/cancelled-popup-request'
     | 'auth/credential-already-in-use'
     | 'auth/email-already-in-use'
@@ -45,14 +49,16 @@ export interface LinkUserWithPopupError extends FirebaseError {
 }
 
 export interface LinkUserWithRedirectError extends FirebaseError {
-  code: 'auth/auth-domain-config-required'
+  code: AuthErrorCodeType
+    | 'auth/auth-domain-config-required'
     | 'auth/operation-not-supported-in-this-environment'
     | 'auth/provider-already-linked'
     | 'auth/unauthorized-domain'
 }
 
 export interface ReauthenticateError extends FirebaseError {
-  code: 'auth/user-mismatch'
+  code: AuthErrorCodeType
+    | 'auth/user-mismatch'
     | 'auth/user-not-found'
     | 'auth/invalid-credential'
     | 'auth/invalid-email'
@@ -60,13 +66,15 @@ export interface ReauthenticateError extends FirebaseError {
 }
 
 export interface UpdateEmailError extends FirebaseError {
-  code: 'auth/invalid-email'
+  code: AuthErrorCodeType
+    | 'auth/invalid-email'
     | 'auth/email-already-in-use'
     | 'auth/requires-recent-login'
 }
 
 export interface UpdatePasswordError extends FirebaseError {
-  code: 'auth/weak-password'
+  code: AuthErrorCodeType
+    | 'auth/weak-password'
     | 'auth/requires-recent-login'
 }
 
@@ -130,8 +138,8 @@ export class FirebaseUser {
   }
 
   /**
-   * @returns {Observable<FirebaseUserCredential>} - Returns {@link LinkUserWithPopupError} if operation
-   * fails.
+   * @returns {Observable<FirebaseUserCredential>} - Returns {@link LinkUserWithPopupError} if
+   *     operation fails.
    */
   linkWithPopup(provider: auth.AuthProvider): Observable<FirebaseUserCredential> {
     return wrapPromise(() => this.user.linkWithPopup(provider))
@@ -139,8 +147,8 @@ export class FirebaseUser {
   }
 
   /**
-   * @returns {Observable<FirebaseUserCredential>} - Returns {@link LinkUserWithRedirectError} if operation
-   * fails.
+   * @returns {Observable<FirebaseUserCredential>} - Returns {@link LinkUserWithRedirectError} if
+   *     operation fails.
    */
   linkWithRedirect(provider: auth.AuthProvider): Observable<FirebaseUserCredential> {
     return wrapPromise(() => this.user.linkWithRedirect(provider))
@@ -184,7 +192,7 @@ export class FirebaseUser {
     return wrapPromise(() => this.user.updatePassword(newPassword));
   }
 
-  updateProfile(profile: {displayName?: string, photoURL?: string}): Observable<void> {
+  updateProfile(profile: { displayName?: string, photoURL?: string }): Observable<void> {
     return wrapPromise<void>(() => this.user.updateProfile(profile as any));
   }
 }
