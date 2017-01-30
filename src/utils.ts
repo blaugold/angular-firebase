@@ -7,19 +7,15 @@ export function wrapExternalPromise<T>(promise: any): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     promise
       .then(res => resolve(res))
-      .then(err => reject(err))
+      .catch(err => reject(err))
   })
 }
 
 export function wrapPromise<T>(promiseFact: () => firebase.Promise<T>): Observable<T> {
   if (invokeLazy()) {
     return new Observable<T>(sub => {
-      wrapExternalPromise<T>(promiseFact())
-        .then(res => {
-          sub.next(res)
-          sub.complete()
-        })
-        .catch(err => sub.error(err))
+      Observable.fromPromise<T>(wrapExternalPromise<T>(promiseFact()))
+        .subscribe(sub)
     })
   }
   return Observable.fromPromise<T>(wrapExternalPromise<T>(promiseFact()))
