@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.5"></a>
+## [1.0.5](https://github.com/blaugold/angular-firebase/compare/v1.0.3...v1.0.5) (2017-01-30)
+
+
+### Bug Fixes
+
+* wrap firebase promises correctly ([229d315](https://github.com/blaugold/angular-firebase/commit/229d315))
+
+
+
 <a name="1.0.4"></a>
 ## [1.0.4](https://github.com/blaugold/angular-firebase/compare/v1.0.3...v1.0.4) (2017-01-30)
 
