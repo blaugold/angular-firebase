@@ -8,19 +8,20 @@ import { FirebaseUser, FirebaseUserCredential } from './firebase-user'
 
 export type UserAuthEvent = FirebaseUser | null | 'pending'
 
-export type AuthErrorCodeType = 'auth/app-deleted'
-  | 'auth/app-not-authorized'
-  | 'auth/argument-error'
-  | 'auth/invalid-api-key'
-  | 'auth/invalid-user-token'
-  | 'auth/network-request-failed'
-  | 'auth/operation-not-allowed'
-  | 'auth/requires-recent-login'
-  | 'auth/too-many-requests'
-  | 'auth/unauthorized-domain'
-  | 'auth/user-disabled'
-  | 'auth/user-token-expired'
-  | 'auth/web-storage-unsupported'
+export type AuthErrorCodeType =
+  'auth/app-deleted'
+    | 'auth/app-not-authorized'
+    | 'auth/argument-error'
+    | 'auth/invalid-api-key'
+    | 'auth/invalid-user-token'
+    | 'auth/network-request-failed'
+    | 'auth/operation-not-allowed'
+    | 'auth/requires-recent-login'
+    | 'auth/too-many-requests'
+    | 'auth/unauthorized-domain'
+    | 'auth/user-disabled'
+    | 'auth/user-token-expired'
+    | 'auth/web-storage-unsupported'
 
 export interface AuthError extends FirebaseError {
   code: AuthErrorCodeType | string
@@ -29,7 +30,8 @@ export interface AuthError extends FirebaseError {
 }
 
 export interface ActionCodeError extends AuthError {
-  code: AuthErrorCodeType | 'auth/expired-action-code'
+  code: AuthErrorCodeType
+    | 'auth/expired-action-code'
     | 'auth/invalid-action-code'
     | 'auth/user-disabled'
     | 'auth/user-not-found'
@@ -180,8 +182,8 @@ export class FirebaseAuth {
    *
    * @param email
    * @param password
-   * @returns {Observable<FirebaseUser>} - Returns {@link CreateUserWithEmailAndPasswordError} if operation
-   *     fails.
+   * @returns {Observable<FirebaseUser>} - Returns {@link CreateUserWithEmailAndPasswordError} if
+   *     operation fails.
    */
   createUserWithEmailAndPassword(email: string, password: string): Observable<FirebaseUser> {
     return wrapPromise(() => this.fbAuth.createUserWithEmailAndPassword(email, password))
@@ -199,8 +201,8 @@ export class FirebaseAuth {
   }
 
   /**
-   * @returns {Observable<FirebaseUserCredential>} - Returns {@link GetRedirectResultError} if operation
-   *     fails.
+   * @returns {Observable<FirebaseUserCredential>} - Returns {@link GetRedirectResultError} if
+   *     operation fails.
    */
   getRedirectResult(): Observable<FirebaseUserCredential> {
     return wrapPromise(() => this.fbAuth.getRedirectResult())
@@ -217,7 +219,8 @@ export class FirebaseAuth {
 
   /**
    *
-   * @returns {Observable<FirebaseUser>} - Returns {@link SignInAnonymouslyError} if operation fails.
+   * @returns {Observable<FirebaseUser>} - Returns {@link SignInAnonymouslyError} if operation
+   *     fails.
    */
   signInAnonymously(): Observable<FirebaseUser> {
     return wrapPromise(() => this.fbAuth.signInAnonymously())
@@ -226,7 +229,8 @@ export class FirebaseAuth {
 
   /**
    * @param credential
-   * @returns {Observable<FirebaseUser>} - Returns {@link SignInWithCredentialError} if operation fails.
+   * @returns {Observable<FirebaseUser>} - Returns {@link SignInWithCredentialError} if operation
+   *     fails.
    */
   signInWithCredential(credential: AuthCredential): Observable<FirebaseUser> {
     return wrapPromise(() => this.fbAuth.signInWithCredential(credential))
@@ -235,7 +239,8 @@ export class FirebaseAuth {
 
   /**
    * @param token
-   * @returns {Observable<FirebaseUser>} - Returns {@link SignInWithCustomTokenError} if operation fails.
+   * @returns {Observable<FirebaseUser>} - Returns {@link SignInWithCustomTokenError} if operation
+   *     fails.
    */
   signInWithCustomToken(token: string): Observable<FirebaseUser> {
     return wrapPromise(() => this.fbAuth.signInWithCustomToken(token))
@@ -245,8 +250,8 @@ export class FirebaseAuth {
   /**
    * @param email
    * @param password
-   * @returns {Observable<FirebaseUser>} - Returns {@link SignInWithEmailAndPasswordError} if operation
-   *     fails.
+   * @returns {Observable<FirebaseUser>} - Returns {@link SignInWithEmailAndPasswordError} if
+   *     operation fails.
    */
   signInWithEmailAndPassword(email: string, password: string): Observable<FirebaseUser> {
     return wrapPromise(() => this.fbAuth.signInWithEmailAndPassword(email, password))
@@ -264,7 +269,8 @@ export class FirebaseAuth {
 
   /**
    * @param provider
-   * @returns {Observable<FirebaseUser>} - Returns {@link SignInWithRedirectError} if operation fails.
+   * @returns {Observable<FirebaseUser>} - Returns {@link SignInWithRedirectError} if operation
+   *     fails.
    */
   signInWithRedirect(provider: AuthProvider): Observable<FirebaseUserCredential> {
     return wrapPromise(() => this.fbAuth.signInWithRedirect(provider))

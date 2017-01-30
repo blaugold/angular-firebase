@@ -1,18 +1,21 @@
 import { Injectable, NgZone, Injector, ReflectiveInjector } from '@angular/core'
 import { Observable, Subscriber } from 'rxjs'
 import { database } from 'firebase'
-
 import { NativeFirebaseDatabase } from './native-firebase'
 import { wrapPromise } from './utils'
 import { DataSnapshot } from './reexports'
 import { DataSnapshotObservable } from './observable/data-snapshot-observable'
-
 import './observable/add/run-in-zone'
 
 export type NativeDatabaseRef = database.Reference
 export type Query = database.Query
 
-export type EventType = 'value' | 'child_added' | 'child_changed' | 'child_removed' | 'child_moved'
+export type EventType =
+  'value'
+    | 'child_added'
+    | 'child_changed'
+    | 'child_removed'
+    | 'child_moved'
 
 export class Event {
   static Value: EventType        = 'value'
@@ -246,8 +249,8 @@ export class FirebaseDatabaseRef extends FirebaseQuery {
   }
 
   transaction(transactionUpdate: (node: any) => any | never,
-              applyLocally?: boolean): Observable<{committed: boolean, snapshot: DataSnapshot}> {
-    return wrapPromise<{committed: boolean, snapshot: DataSnapshot}>(
+              applyLocally?: boolean): Observable<{ committed: boolean, snapshot: DataSnapshot }> {
+    return wrapPromise<{ committed: boolean, snapshot: DataSnapshot }>(
       () => new Promise((resolve, reject) => this._ref.transaction(
         transactionUpdate,
         (err, committed, snapshot) => err ? reject(err) : resolve({ committed, snapshot }),
