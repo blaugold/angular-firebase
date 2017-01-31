@@ -67,13 +67,8 @@ export interface GetRedirectResultError extends AuthError {
 
 export interface SendPasswordResetEmailError extends AuthError {
   code: AuthErrorCodeType
-    | 'auth/account-exists-with-different-credential'
-    | 'auth/auth-domain-config-required'
-    | 'auth/credential-already-in-use'
-    | 'auth/email-already-in-use'
-    | 'auth/operation-not-allowed'
-    | 'auth/operation-not-supported-in-this-environment'
-    | 'auth/timeout'
+    | 'auth/invalid-email'
+    | 'auth/user-not-found'
 }
 
 export interface SignInAnonymouslyError extends AuthError {
