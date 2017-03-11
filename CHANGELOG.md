@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.6"></a>
+## [1.0.6](https://github.com/blaugold/angular-firebase/compare/v1.0.5...v1.0.6) (2017-03-11)
+
+
+### Bug Fixes
+
+* **Auth:** fix error code type for SendPasswordResetEmailError ([41d21dd](https://github.com/blaugold/angular-firebase/commit/41d21dd))
+* **ExtendedDataSnapshot:** make prevKey optional ([75aeca4](https://github.com/blaugold/angular-firebase/commit/75aeca4))
+
+
+
 <a name="1.0.5"></a>
 ## [1.0.5](https://github.com/blaugold/angular-firebase/compare/v1.0.3...v1.0.5) (2017-01-30)
 
