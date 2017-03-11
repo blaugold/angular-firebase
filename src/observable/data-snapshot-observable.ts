@@ -3,7 +3,7 @@ import { Observable } from 'rxjs'
 import { database } from 'firebase'
 
 export interface ExtendedDataSnapshot extends database.DataSnapshot {
-  prevKey: string
+  prevKey?: string
 }
 
 export class DataSnapshotObservable<T> extends Observable<ExtendedDataSnapshot> {
@@ -14,7 +14,7 @@ export class DataSnapshotObservable<T> extends Observable<ExtendedDataSnapshot> 
 
   children<C>(): Observable<DataSnapshotObservable<C>> {
     return this.map(snapshot => new DataSnapshotObservable(sub => {
-      snapshot.forEach(childSnapshot => sub.next(childSnapshot))
+      snapshot.forEach(childSnapshot => {sub.next(childSnapshot); return false})
       sub.complete()
     }))
   }
