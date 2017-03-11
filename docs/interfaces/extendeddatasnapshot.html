@@ -100,6 +100,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="extendeddatasnapshot.html#haschild" class="tsd-kind-icon">has<wbr>Child</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="extendeddatasnapshot.html#haschildren" class="tsd-kind-icon">has<wbr>Children</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="extendeddatasnapshot.html#numchildren" class="tsd-kind-icon">num<wbr>Children</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="extendeddatasnapshot.html#tojson" class="tsd-kind-icon">toJSON</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="extendeddatasnapshot.html#val" class="tsd-kind-icon">val</a></li>
 							</ul>
 						</section>
@@ -115,17 +116,17 @@
 					<aside class="tsd-sources">
 						<p>Inherited from DataSnapshot.key</p>
 						<ul>
-							<li>Defined in node_modules/firebase/firebase.d.ts:202</li>
+							<li>Defined in node_modules/firebase/firebase.d.ts:203</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="prevkey" class="tsd-anchor"></a>
-					<h3>prev<wbr>Key</h3>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> prev<wbr>Key</h3>
 					<div class="tsd-signature tsd-kind-icon">prev<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/7a6b94f/src/observable/data-snapshot-observable.ts#L6">src/observable/data-snapshot-observable.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/75aeca4/src/observable/data-snapshot-observable.ts#L6">src/observable/data-snapshot-observable.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -136,7 +137,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from DataSnapshot.ref</p>
 						<ul>
-							<li>Defined in node_modules/firebase/firebase.d.ts:204</li>
+							<li>Defined in node_modules/firebase/firebase.d.ts:205</li>
 						</ul>
 					</aside>
 				</section>
@@ -154,7 +155,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from DataSnapshot.child</p>
 								<ul>
-									<li>Defined in node_modules/firebase/firebase.d.ts:195</li>
+									<li>Defined in node_modules/firebase/firebase.d.ts:196</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -178,7 +179,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from DataSnapshot.exists</p>
 								<ul>
-									<li>Defined in node_modules/firebase/firebase.d.ts:196</li>
+									<li>Defined in node_modules/firebase/firebase.d.ts:197</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -196,7 +197,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from DataSnapshot.exportVal</p>
 								<ul>
-									<li>Defined in node_modules/firebase/firebase.d.ts:197</li>
+									<li>Defined in node_modules/firebase/firebase.d.ts:198</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -214,7 +215,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from DataSnapshot.forEach</p>
 								<ul>
-									<li>Defined in node_modules/firebase/firebase.d.ts:198</li>
+									<li>Defined in node_modules/firebase/firebase.d.ts:199</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -256,7 +257,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from DataSnapshot.getPriority</p>
 								<ul>
-									<li>Defined in node_modules/firebase/firebase.d.ts:199</li>
+									<li>Defined in node_modules/firebase/firebase.d.ts:200</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
@@ -279,7 +280,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from DataSnapshot.hasChild</p>
 								<ul>
-									<li>Defined in node_modules/firebase/firebase.d.ts:200</li>
+									<li>Defined in node_modules/firebase/firebase.d.ts:201</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -303,7 +304,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from DataSnapshot.hasChildren</p>
 								<ul>
-									<li>Defined in node_modules/firebase/firebase.d.ts:201</li>
+									<li>Defined in node_modules/firebase/firebase.d.ts:202</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -321,10 +322,31 @@
 							<aside class="tsd-sources">
 								<p>Inherited from DataSnapshot.numChildren</p>
 								<ul>
-									<li>Defined in node_modules/firebase/firebase.d.ts:203</li>
+									<li>Defined in node_modules/firebase/firebase.d.ts:204</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+					<a name="tojson" class="tsd-anchor"></a>
+					<h3>toJSON</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">toJSON<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from DataSnapshot.toJSON</p>
+								<ul>
+									<li>Defined in node_modules/firebase/firebase.d.ts:206</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Object</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">null</span>
+							</h4>
 						</li>
 					</ul>
 				</section>
@@ -339,7 +361,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from DataSnapshot.val</p>
 								<ul>
-									<li>Defined in node_modules/firebase/firebase.d.ts:205</li>
+									<li>Defined in node_modules/firebase/firebase.d.ts:207</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -395,6 +417,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
 								<a href="extendeddatasnapshot.html#numchildren" class="tsd-kind-icon">num<wbr>Children</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+								<a href="extendeddatasnapshot.html#tojson" class="tsd-kind-icon">toJSON</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
 								<a href="extendeddatasnapshot.html#val" class="tsd-kind-icon">val</a>
