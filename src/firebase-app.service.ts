@@ -1,7 +1,6 @@
-import { Injectable, Injector, ReflectiveInjector } from '@angular/core'
+import { Injector, ReflectiveInjector } from '@angular/core'
 import { Observable } from 'rxjs'
 import * as firebase from 'firebase'
-
 import { FirebaseAuth } from './firebase-auth.service'
 import { FirebaseDatabase } from './firebase-database.service'
 import { NativeFirebaseApp, NativeFirebaseAuth, NativeFirebaseDatabase } from './native-firebase'
@@ -9,9 +8,8 @@ import { wrapPromise } from './utils'
 
 let lastAppId = 0
 
-export class FirebaseAppConfig {
-  token?: any
-  name: string
+export interface FirebaseAppConfig {
+  name?: string
   options: {
     apiKey: string
     authDomain?: string
@@ -19,25 +17,8 @@ export class FirebaseAppConfig {
     storageBucket?: string
     messagingSenderId?: string
   }
-
-  constructor(config: {
-    token?: any
-    name?: string
-    options: {
-      apiKey: string
-      authDomain?: string
-      databaseURL?: string
-      storageBucket?: string
-      messagingSenderId?: string
-    }
-  }) {
-    this.token   = config.token
-    this.name    = config.name || `app-${lastAppId++}`
-    this.options = config.options
-  }
 }
 
-@Injectable()
 export class FirebaseApp {
   nativeApp: NativeFirebaseApp
 
@@ -46,6 +27,7 @@ export class FirebaseApp {
 
   constructor(public config: FirebaseAppConfig,
               private injector: Injector) {
+    config.name    = config.name || `app-${lastAppId++}`
     this.nativeApp = firebase.initializeApp(config.options, config.name)
   }
 

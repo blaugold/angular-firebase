@@ -9,7 +9,7 @@ observables and returns them for every operation. To make working with observabl
 Firebase easier, the returned observables are extended with helper operators and aliases to snapshot 
 methods.
 
-At the moment Auth and Database are almost completely implemented.
+At the moment Auth and Database are implemented.
 
 **[Reference](https://blaugold.github.io/angular-firebase/index.html)**
 
@@ -21,12 +21,14 @@ At the moment Auth and Database are almost completely implemented.
 
 ## Usage
 For most apps, which only use one firebase project, add the `FirebaseModule` to your root module.
+
 ```typescript
-import { FirebaseModule, FirebaseAppConfig } from '@blaugold/angular-firebase'
+import { NgModule } from '@angular/core'
+import { FirebaseModule } from '@blaugold/angular-firebase'
 
 @NgModule({
     imports: [
-        FirebaseModule.forRoot([new FirebaseAppConfig({
+        FirebaseModule.primaryApp({
             options: {
                 apiKey: '<your-api-key>',
                 authDomain: '<your-auth-domain>',
@@ -34,14 +36,19 @@ import { FirebaseModule, FirebaseAppConfig } from '@blaugold/angular-firebase'
                 storageBucket: '<your-storage-bucket>',
                 messagingSenderId: '<your-messaging-sender-id>'
             }
-        })])
+        })
     ]
 })
 export class AppModule {}
 ```
 
 In your service or component inject `FirebaseDatabase` and `FirebaseAuth`:
+
 ```typescript
+import { Injectable } from '@angular/core'
+import { FirebaseDatabase } from '@blaugold/angular-firebase'
+import { Observable } from 'rxjs/Observable'
+
 const todoLists = 'todoLists'
 
 @Injectable()
@@ -76,15 +83,26 @@ operations return observables. To get an overview of the api, take a look at [`F
 ## Multiple Projects
 For every project a `FirebaseApp` instance is created. The default project app is injected when
 requesting `FirebaseApp`. The default app's `FirebaseDatabase` and `FirebaseAuth`
-are available like this as well. To get additional apps set a token in the `FirebaseAppConfig`
-and use this token with `@Inject(token)` in a constructor:
-```typescript
-const secondAppToken = new OpaqueToken('Second App')
+are available like this as well. To setup additional apps use `FirebaseModule.secondaryApp` and pass
+an `InjectionToken` which then can be used to inject the app in services, components, etc.:
 
-// Default project
-new FirebaseAppConfig({ options: defaultProjectConfig })
-// Second project
-new FirebaseAppConfig({ token: secondAppToken, options: secondProjectConfig })
+```typescript
+import { InjectionToken, NgModule, Component, Inject } from '@angular/core'
+import { FirebaseModule, FirebaseApp, FirebaseDatabase, FirebaseAuth } from '@blaugold/angular-firebase'
+
+const secondAppToken = new InjectionToken('Second App')
+
+@NgModule({
+    imports: [
+        FirebaseModule.secondaryApp(secondAppToken, {
+            options: {...}
+        }),
+        FirebaseModule.primaryApp({
+            options: {...}
+        })
+    ]
+})
+export class AppModule {}
 
 @Component(...)
 class AppComponent {
@@ -100,8 +118,6 @@ class AppComponent {
 }
 ```
  
-
-
 ## Operation Invocation
 Since the library focuses on observables all operations are invoked lazily as is usually the case 
 with observables. This means for example, calling `someRef.set({ foo: 'bar' })` will do nothing 

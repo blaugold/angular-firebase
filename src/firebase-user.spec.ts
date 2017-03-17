@@ -1,7 +1,5 @@
 import { TestBed } from '@angular/core/testing'
-
 import { FirebaseModule } from './firebase.module'
-import { FirebaseAppConfig } from './firebase-app.service'
 import { FirebaseAuth } from './firebase-auth.service'
 import { FirebaseUser } from './firebase-user'
 import { awaitPromise } from './utils.spec'
@@ -16,7 +14,7 @@ describe('FirebaseUser', () => {
 
     it('should sign up', awaitPromise(async function () {
       TestBed.configureTestingModule({
-        imports: [FirebaseModule.forRoot([new FirebaseAppConfig({ options: firebaseConfig })])]
+        imports: [FirebaseModule.primaryApp({ options: firebaseConfig })]
       })
 
       auth = TestBed.get(FirebaseAuth);

@@ -11,16 +11,24 @@
     "outDir": "./release",
     "rootDir": ".",
     "sourceMap": true,
-    "inlineSources": true,
     "lib": [
       "es2015",
       "dom"
     ],
     "target": "es5",
-    "skipLibCheck": false
+    "types": [
+      "node",
+      "zone.js"
+    ]
   },
   "files": [
     "index.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "compiled",
+    "release",
+    "docs"
   ],
   "angularCompilerOptions": {
     "strictMetadataEmit": true,

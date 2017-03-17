@@ -1,8 +1,7 @@
 /* tslint:disable:no-unused-variable */
-
-import { TestBed, inject, async } from '@angular/core/testing'
+import { TestBed, inject } from '@angular/core/testing'
 import { FirebaseModule } from './firebase.module'
-import { FirebaseAppConfig, FirebaseApp } from './firebase-app.service'
+import { FirebaseApp } from './firebase-app.service'
 import { FirebaseAuth } from './firebase-auth.service'
 
 let firebaseApp: FirebaseApp
@@ -10,7 +9,7 @@ let firebaseApp: FirebaseApp
 describe('Service: FirebaseAuth', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [FirebaseModule.forRoot([new FirebaseAppConfig({ options: firebaseConfig })])],
+      imports: [FirebaseModule.primaryApp({ options: firebaseConfig })],
     });
 
     firebaseApp = TestBed.get(FirebaseApp)

@@ -1,5 +1,4 @@
-import { NgModule, ModuleWithProviders, Injector, Provider } from '@angular/core'
-
+import { NgModule, ModuleWithProviders, Injector, InjectionToken } from '@angular/core'
 import { FirebaseAuth } from './firebase-auth.service'
 import { FirebaseDatabase } from './firebase-database.service'
 import { FirebaseAppConfig, FirebaseApp } from './firebase-app.service'
@@ -11,55 +10,76 @@ export function invokeLazy(): boolean {
   return lazyInvocation
 }
 
-function setLazyInvocation(lazy: boolean) {
+export function setLazyInvocation(lazy: boolean) {
   lazyInvocation = lazy
+}
+
+export function appFactory(injector: Injector, config) {
+  return new FirebaseApp(config, injector)
+}
+
+export function authFactory(app: FirebaseApp) {
+  return app.auth()
+}
+
+export function databaseFactory(app: FirebaseApp) {
+  return app.database()
 }
 
 @NgModule({})
 export class FirebaseModule {
-  static forRoot(config: FirebaseAppConfig[], lazyInvocation = true): ModuleWithProviders {
-    this.validateConfig(config)
-
-    setLazyInvocation(lazyInvocation)
+  /**
+   * Provides a firebase app which will be be injected for `FirebaseApp`. Further the app's
+   * `FirebaseAuth` and `FirebaseDatabase` can be injected in the same way.
+   * @param config Firebase app config.
+   */
+  static primaryApp(config: FirebaseAppConfig): ModuleWithProviders {
 
     return {
       ngModule:  FirebaseModule,
-      providers: this.getProviders(config)
+      providers: [
+        {
+          provide:  'firebase-config-' + config.options.apiKey,
+          useValue: config
+        },
+        {
+          provide:    FirebaseApp,
+          useFactory: appFactory,
+          deps:       [Injector, 'firebase-config-' + config.options.apiKey]
+        },
+        {
+          provide:    FirebaseAuth,
+          useFactory: authFactory,
+          deps:       [FirebaseApp]
+        },
+        {
+          provide:    FirebaseDatabase,
+          useFactory: databaseFactory,
+          deps:       [FirebaseApp]
+        }
+      ]
     }
   }
 
-  private static validateConfig(config: FirebaseAppConfig[]) {
-    const defaultApps = config.filter(config => !config.token)
-    if (defaultApps.length > 1) {
-      throw new Error('There can only be one default Firebase App')
+  /**
+   * Provides a `FirebaseApp` which will be injected for {@param token}.
+   *
+   * @param config Firebase app config.
+   */
+  static secondaryApp(token: InjectionToken<FirebaseApp>, config: FirebaseAppConfig) {
+    return {
+      ngModule:  FirebaseModule,
+      providers: [
+        {
+          provide:  'firebase-config-' + config.options.apiKey,
+          useValue: config
+        },
+        {
+          provide:    token,
+          useFactory: appFactory,
+          deps:       [Injector, 'firebase-config-' + config.options.apiKey,]
+        }
+      ]
     }
-  }
-
-  private static getProviders(config: FirebaseAppConfig[]): Provider[] {
-    const defaultApp     = config.filter(config => !config.token)[0]
-    const additionalApps = config.filter(config => !!config.token)
-
-    return [
-      {
-        provide:    FirebaseApp,
-        useFactory: (injector: Injector) => new FirebaseApp(defaultApp, injector),
-        deps:       [Injector]
-      },
-      {
-        provide:    FirebaseAuth,
-        useFactory: (firebaseApp: FirebaseApp) => firebaseApp.auth(),
-        deps:       [FirebaseApp]
-      },
-      {
-        provide:    FirebaseDatabase,
-        useFactory: (firebaseApp: FirebaseApp) => firebaseApp.database(),
-        deps:       [FirebaseApp]
-      },
-      ...additionalApps.map(config => ({
-        provide:    config.token,
-        useFactory: (injector: Injector) => new FirebaseApp(config, injector),
-        deps:       [Injector]
-      }))
-    ]
   }
 }
