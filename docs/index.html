@@ -69,17 +69,18 @@
 					observables and returns them for every operation. To make working with observables and
 					Firebase easier, the returned observables are extended with helper operators and aliases to snapshot
 				methods.</p>
-				<p>At the moment Auth and Database are almost completely implemented.</p>
+				<p>At the moment Auth and Database are implemented.</p>
 				<p><strong><a href="https://blaugold.github.io/angular-firebase/index.html">Reference</a></strong></p>
 				<h2 id="installation">Installation</h2>
 				<pre><code>    <span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">i</span> <span class="hljs-selector-tag">--save</span> @<span class="hljs-keyword">blaugold</span>/<span class="hljs-keyword">angular</span>-<span class="hljs-keyword">firebase</span>
 </code></pre><h2 id="usage">Usage</h2>
 				<p>For most apps, which only use one firebase project, add the <code>FirebaseModule</code> to your root module.</p>
-				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { FirebaseModule, FirebaseAppConfig } from <span class="hljs-string">'@blaugold/angular-firebase'</span>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { NgModule } from <span class="hljs-string">'@angular/core'</span>
+<span class="hljs-keyword">import</span> { FirebaseModule } from <span class="hljs-string">'@blaugold/angular-firebase'</span>
 
 @NgModule({
     imports: [
-        FirebaseModule.forRoot([<span class="hljs-keyword">new</span> FirebaseAppConfig({
+        FirebaseModule.primaryApp({
             options: {
                 apiKey: <span class="hljs-string">'&lt;your-api-key&gt;'</span>,
                 authDomain: <span class="hljs-string">'&lt;your-auth-domain&gt;'</span>,
@@ -87,13 +88,17 @@
                 storageBucket: <span class="hljs-string">'&lt;your-storage-bucket&gt;'</span>,
                 messagingSenderId: <span class="hljs-string">'&lt;your-messaging-sender-id&gt;'</span>
             }
-        })])
+        })
     ]
 })
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> AppModule {}
 </code></pre>
 				<p>In your service or component inject <code>FirebaseDatabase</code> and <code>FirebaseAuth</code>:</p>
-				<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> todoLists = <span class="hljs-string">'todoLists'</span>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { Injectable } from <span class="hljs-string">'@angular/core'</span>
+<span class="hljs-keyword">import</span> { FirebaseDatabase } from <span class="hljs-string">'@blaugold/angular-firebase'</span>
+<span class="hljs-keyword">import</span> { Observable } from <span class="hljs-string">'rxjs/Observable'</span>
+
+<span class="hljs-keyword">const</span> todoLists = <span class="hljs-string">'todoLists'</span>
 
 @Injectable()
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> TodoService {
@@ -125,14 +130,24 @@
 				<h2 id="multiple-projects">Multiple Projects</h2>
 				<p>For every project a <code>FirebaseApp</code> instance is created. The default project app is injected when
 					requesting <code>FirebaseApp</code>. The default app&#39;s <code>FirebaseDatabase</code> and <code>FirebaseAuth</code>
-					are available like this as well. To get additional apps set a token in the <code>FirebaseAppConfig</code>
-				and use this token with <code>@Inject(token)</code> in a constructor:</p>
-				<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> secondAppToken = <span class="hljs-keyword">new</span> OpaqueToken(<span class="hljs-string">'Second App'</span>)
+					are available like this as well. To setup additional apps use <code>FirebaseModule.secondaryApp</code> and pass
+				an <code>InjectionToken</code> which then can be used to inject the app in services, components, etc.:</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { InjectionToken, NgModule, Component, Inject } from <span class="hljs-string">'@angular/core'</span>
+<span class="hljs-keyword">import</span> { FirebaseModule, FirebaseApp, FirebaseDatabase, FirebaseAuth } from <span class="hljs-string">'@blaugold/angular-firebase'</span>
 
-<span class="hljs-comment">// Default project</span>
-<span class="hljs-keyword">new</span> FirebaseAppConfig({ options: defaultProjectConfig })
-<span class="hljs-comment">// Second project</span>
-<span class="hljs-keyword">new</span> FirebaseAppConfig({ token: secondAppToken, options: secondProjectConfig })
+<span class="hljs-keyword">const</span> secondAppToken = <span class="hljs-keyword">new</span> InjectionToken(<span class="hljs-string">'Second App'</span>)
+
+@NgModule({
+    imports: [
+        FirebaseModule.secondaryApp(secondAppToken, {
+            options: {...}
+        }),
+        FirebaseModule.primaryApp({
+            options: {...}
+        })
+    ]
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> AppModule {}
 
 @Component(...)
 <span class="hljs-keyword">class</span> AppComponent {
@@ -189,9 +204,6 @@
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/firebaseapp.html" class="tsd-kind-icon">Firebase<wbr>App</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/firebaseappconfig.html" class="tsd-kind-icon">Firebase<wbr>App<wbr>Config</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/firebaseauth.html" class="tsd-kind-icon">Firebase<wbr>Auth</a>
@@ -258,6 +270,9 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/fetchprovidersforemailerror.html" class="tsd-kind-icon">Fetch<wbr>Providers<wbr>For<wbr>Email<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/firebaseappconfig.html" class="tsd-kind-icon">Firebase<wbr>App<wbr>Config</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/firebaseerror.html" class="tsd-kind-icon">Firebase<wbr>Error</a>
@@ -334,17 +349,23 @@
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#usercredential" class="tsd-kind-icon">User<wbr>Credential</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#applicationmodulengfactory" class="tsd-kind-icon">Application<wbr>Module<wbr>NgFactory</a>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#appfactory" class="tsd-kind-icon">app<wbr>Factory</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#firebasemodulengfactory" class="tsd-kind-icon">Firebase<wbr>Module<wbr>NgFactory</a>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#authfactory" class="tsd-kind-icon">auth<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#databasefactory" class="tsd-kind-icon">database<wbr>Factory</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#invokelazy" class="tsd-kind-icon">invoke<wbr>Lazy</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#runinzone" class="tsd-kind-icon">run<wbr>InZone</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#setlazyinvocation" class="tsd-kind-icon">set<wbr>Lazy<wbr>Invocation</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#wrapexternalpromise" class="tsd-kind-icon">wrap<wbr>External<wbr>Promise</a>
