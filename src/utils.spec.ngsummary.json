@@ -1,0 +1,1 @@
+{"summaries":[{"symbol":{"__symbol":0,"members":[]},"metadata":{"__symbolic":"function","parameters":["promFact"],"value":{"__symbolic":"error","message":"Function call not supported","line":3,"character":9}}}],"symbols":[{"__symbol":0,"name":"awaitPromise","filePath":"/Users/gabrielterwesten/Dev/js/angular-firebase/src/utils.spec.d.ts"}]}
