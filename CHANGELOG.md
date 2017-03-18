@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/blaugold/angular-firebase/compare/v1.0.6...v2.0.0) (2017-03-18)
+
+
+### Bug Fixes
+
+* **FirebaseModule:** change module to make aot work ([45e2b00](https://github.com/blaugold/angular-firebase/commit/45e2b00))
+
+
+### BREAKING CHANGES
+
+* FirebaseModule: Apps now use `FirebaseModule#primaryApp` and `FirebaseModule#secondaryApp` to setup firebase apps.
+
+The library now requires angular@>=4.0.0-rc.5.
+
+
+
 <a name="1.0.6"></a>
 ## [1.0.6](https://github.com/blaugold/angular-firebase/compare/v1.0.5...v1.0.6) (2017-03-11)
 
