@@ -1,12 +1,10 @@
 import { Injectable, NgZone } from '@angular/core'
-import { Observable, BehaviorSubject } from 'rxjs'
+import { Observable, BehaviorSubject, ReplaySubject } from 'rxjs'
 import { AuthProvider, AuthCredential } from './reexports'
 import { NativeFirebaseAuth, FirebaseError } from './native-firebase'
 import { wrapPromise } from './utils'
 import './observable/add/run-in-zone'
 import { FirebaseUser, FirebaseUserCredential } from './firebase-user'
-
-export type UserAuthEvent = FirebaseUser | null | 'pending'
 
 export type AuthErrorCodeType =
   'auth/app-deleted'
@@ -134,10 +132,10 @@ export interface ActionCodeInfo {
 @Injectable()
 export class FirebaseAuth {
 
-  $user: Observable<UserAuthEvent>
+  $user: Observable<FirebaseUser | null>
 
   constructor(private fbAuth: NativeFirebaseAuth, private ngZone: NgZone) {
-    this.$user = new BehaviorSubject<UserAuthEvent>('pending')
+    this.$user = new ReplaySubject<FirebaseUser | null>(1)
 
     new Observable<FirebaseUser | null>(sub => fbAuth.onAuthStateChanged(
       (user: firebase.User) => sub.next(user ? new FirebaseUser(user) : null),
@@ -145,7 +143,7 @@ export class FirebaseAuth {
       () => sub.complete()
     ))
       .runInZone(this.ngZone)
-      .subscribe(this.$user as BehaviorSubject<UserAuthEvent>)
+      .subscribe(this.$user as ReplaySubject<FirebaseUser | null>)
   }
 
   /**

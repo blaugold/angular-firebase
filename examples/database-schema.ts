@@ -1,4 +1,4 @@
-import { FirebaseDatabase } from './'
+import { FirebaseDatabase } from '../src'
 
 interface DBSchema {
   todoLists: {
