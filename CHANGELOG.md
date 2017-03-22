@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/blaugold/angular-firebase/compare/v2.0.0...v2.1.0) (2017-03-22)
+
+
+### Bug Fixes
+
+* remove accidentally generated files from src ([8da8370](https://github.com/blaugold/angular-firebase/commit/8da8370))
+* **FirebaseAuth:** remove UserAuthEvent and with it "pending" ([02b3516](https://github.com/blaugold/angular-firebase/commit/02b3516))
+
+
+### Features
+
+* **FirebaseDatabase:** allow parameterization with database schema ([be60e2e](https://github.com/blaugold/angular-firebase/commit/be60e2e))
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/blaugold/angular-firebase/compare/v1.0.6...v2.0.0) (2017-03-18)
 
