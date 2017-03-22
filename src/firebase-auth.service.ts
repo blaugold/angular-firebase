@@ -134,7 +134,7 @@ export class FirebaseAuth {
 
   $user: Observable<FirebaseUser | null>
 
-  constructor(private fbAuth: NativeFirebaseAuth, private ngZone: NgZone) {
+  constructor(private fbAuth: NativeFirebaseAuth) {
     this.$user = new ReplaySubject<FirebaseUser | null>(1)
 
     new Observable<FirebaseUser | null>(sub => fbAuth.onAuthStateChanged(
@@ -142,7 +142,7 @@ export class FirebaseAuth {
       err => sub.error(err),
       () => sub.complete()
     ))
-      .runInZone(this.ngZone)
+      .runInZone()
       .subscribe(this.$user as ReplaySubject<FirebaseUser | null>)
   }
 

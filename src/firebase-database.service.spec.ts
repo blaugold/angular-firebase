@@ -5,7 +5,6 @@ import { FirebaseApp } from './firebase-app.service'
 import { FirebaseModule } from './firebase.module'
 import { FirebaseDatabase } from './firebase-database.service'
 import { NgZone } from '@angular/core'
-import { FirebaseDatabaseRef } from './'
 
 let firebaseApp: FirebaseApp
 

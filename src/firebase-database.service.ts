@@ -1,4 +1,4 @@
-import { Injectable, NgZone, Injector, ReflectiveInjector } from '@angular/core'
+import { Injectable } from '@angular/core'
 import { Observable, Subscriber } from 'rxjs'
 import { database } from 'firebase'
 import { NativeFirebaseDatabase } from './native-firebase'
@@ -33,8 +33,7 @@ export class FirebaseQuery<T> {
     return this.wrappedRef
   }
 
-  constructor(protected _ref: NativeDatabaseRef,
-              protected ngZone: NgZone) {}
+  constructor(protected _ref: NativeDatabaseRef) {}
 
   orderByChild(child: string): FirebaseQuery<T> {
     this._call('orderByChild', child)
@@ -87,7 +86,7 @@ export class FirebaseQuery<T> {
         event, this.getEventHandler(sub, true),
         (err: any) => () => sub.error(err)
       )
-    }).runInZone(this.ngZone)
+    }).runInZone()
   }
 
   onceValue(): DataSnapshotObservable<T> {
@@ -118,7 +117,7 @@ export class FirebaseQuery<T> {
       )
 
       return () => this.getQueryOrRef().off(event, cb)
-    }).runInZone(this.ngZone)
+    }).runInZone()
   }
 
   onValue(): DataSnapshotObservable<T> {
@@ -172,44 +171,31 @@ export class FirebaseQuery<T> {
   }
 }
 
-
 export class FirebaseDatabaseRefConfig {
   constructor(public parent: FirebaseDatabaseRef<any> | null,
-              public ref: NativeDatabaseRef) {
-  }
+              public ref: NativeDatabaseRef) {}
 }
 
 @Injectable()
 export class FirebaseDatabaseRef<T> extends FirebaseQuery<T> {
 
-  static create(parent: FirebaseDatabaseRef<any> | null,
-                injector: Injector,
-                ref: NativeDatabaseRef) {
-    const childInjector = ReflectiveInjector.resolveAndCreate([
-      {
-        provide:  FirebaseDatabaseRefConfig,
-        useValue: new FirebaseDatabaseRefConfig(parent, ref),
-      },
-      FirebaseDatabaseRef
-    ], injector)
-    return childInjector.get(FirebaseDatabaseRef)
+  static create<T>(parent: FirebaseDatabaseRef<any> | null,
+                   ref: NativeDatabaseRef) {
+    return new FirebaseDatabaseRef<T>(new FirebaseDatabaseRefConfig(parent, ref));
   }
-
 
   get key(): string | null {
     return this._ref.key
   }
 
-  constructor(ngZone: NgZone,
-              private config: FirebaseDatabaseRefConfig,
-              private injector: Injector) {
-    super(config.ref, ngZone)
+  constructor(private config: FirebaseDatabaseRefConfig) {
+    super(config.ref)
 
     this.wrappedRef = this
   }
 
   child<P extends keyof T>(path: P): FirebaseDatabaseRef<T[P]> {
-    return FirebaseDatabaseRef.create(this, this.injector, this._ref.child(path))
+    return FirebaseDatabaseRef.create<T[P]>(this, this._ref.child(path))
   }
 
   set(value: any): Observable<void> {
@@ -229,7 +215,7 @@ export class FirebaseDatabaseRef<T> extends FirebaseQuery<T> {
 
   push<P>(value?: P): Observable<FirebaseDatabaseRef<P>> {
     const pushRef = this._ref.push(value)
-    const ref     = FirebaseDatabaseRef.create(this, this.injector, pushRef)
+    const ref     = FirebaseDatabaseRef.create(this, pushRef)
 
     // Only if a value to push was given, use ref as promise, since otherwise
     // pushRef.then will be undefined
@@ -263,13 +249,12 @@ export class FirebaseDatabaseRef<T> extends FirebaseQuery<T> {
 @Injectable()
 export class FirebaseDatabase<T> {
 
-  constructor(private db: NativeFirebaseDatabase,
-              private injector: Injector) { }
+  constructor(private db: NativeFirebaseDatabase) { }
 
   ref(): FirebaseDatabaseRef<T>
   ref(path: string): FirebaseDatabaseRef<any>
   ref<F>(path: string): FirebaseDatabaseRef<F>
   ref<F>(path?: string): FirebaseDatabaseRef<F> {
-    return FirebaseDatabaseRef.create(null, this.injector, this.db.ref(path))
+    return FirebaseDatabaseRef.create(null, this.db.ref(path))
   }
 }
