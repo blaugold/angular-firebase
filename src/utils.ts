@@ -6,8 +6,8 @@ import { invokeLazy } from './firebase.module'
 export function wrapExternalPromise<T>(promise: any): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     promise
-      .then(res => resolve(res))
-      .catch(err => reject(err))
+      .then((res: T) => resolve(res))
+      .catch((err: any) => reject(err))
   })
 }
 

@@ -140,7 +140,7 @@ export class FirebaseAuth {
     this.$user = new BehaviorSubject<UserAuthEvent>('pending')
 
     new Observable<FirebaseUser | null>(sub => fbAuth.onAuthStateChanged(
-      user => sub.next(user ? new FirebaseUser(user) : null),
+      (user: firebase.User) => sub.next(user ? new FirebaseUser(user) : null),
       err => sub.error(err),
       () => sub.complete()
     ))

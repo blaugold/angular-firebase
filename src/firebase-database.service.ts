@@ -25,123 +25,123 @@ export class Event {
   static ChildMoved: EventType   = 'child_moved'
 }
 
-export class FirebaseQuery {
+export class FirebaseQuery<T> {
   private query: Query
-  protected wrappedRef: FirebaseDatabaseRef
+  protected wrappedRef: FirebaseDatabaseRef<T>
 
-  get ref(): FirebaseDatabaseRef {
+  get ref(): FirebaseDatabaseRef<T> {
     return this.wrappedRef
   }
 
   constructor(protected _ref: NativeDatabaseRef,
               protected ngZone: NgZone) {}
 
-  orderByChild(child: string): FirebaseQuery {
+  orderByChild(child: string): FirebaseQuery<T> {
     this._call('orderByChild', child)
     return this
   }
 
-  orderByKey(): FirebaseQuery {
+  orderByKey(): FirebaseQuery<T> {
     this._call('orderByKey')
     return this
   }
 
-  orderByPriority(): FirebaseQuery {
+  orderByPriority(): FirebaseQuery<T> {
     this._call('orderByPriority')
     return this
   }
 
-  orderByValue(): FirebaseQuery {
+  orderByValue(): FirebaseQuery<T> {
     this._call('orderByValue')
     return this
   }
 
-  startAt(value: number | string | boolean | null, key?: string): FirebaseQuery {
+  startAt(value: number | string | boolean | null, key?: string): FirebaseQuery<T> {
     this._call('startAt', value, key)
     return this
   }
 
-  endAt(value: number | string | boolean | null, key?: string): FirebaseQuery {
+  endAt(value: number | string | boolean | null, key?: string): FirebaseQuery<T> {
     this._call('endAt', value, key)
     return this
   }
 
-  equalTo(value: number | string | boolean | null, key?: string): FirebaseQuery {
+  equalTo(value: number | string | boolean | null, key?: string): FirebaseQuery<T> {
     this._call('equalTo', value, key)
     return this
   }
 
-  limitToFirst(limit: number): FirebaseQuery {
+  limitToFirst(limit: number): FirebaseQuery<T> {
     this._call('limitToFirst', limit)
     return this
   }
 
-  limitToLast(limit: number): FirebaseQuery {
+  limitToLast(limit: number): FirebaseQuery<T> {
     this._call('limitToLast', limit)
     return this
   }
 
-  once<T>(event: EventType): DataSnapshotObservable<T> {
+  once(event: EventType): DataSnapshotObservable<T> {
     return new DataSnapshotObservable(sub => {
       this.getQueryOrRef().once(
         event, this.getEventHandler(sub, true),
-        err => () => sub.error(err)
+        (err: any) => () => sub.error(err)
       )
     }).runInZone(this.ngZone)
   }
 
-  onceValue<T>(): DataSnapshotObservable<T> {
-    return this.once<T>(Event.Value)
+  onceValue(): DataSnapshotObservable<T> {
+    return this.once(Event.Value)
   }
 
-  onceChildAdded<T>(): DataSnapshotObservable<T> {
-    return this.once<T>(Event.ChildAdded)
+  onceChildAdded(): DataSnapshotObservable<T> {
+    return this.once(Event.ChildAdded)
   }
 
-  onceChildChanged<T>(): DataSnapshotObservable<T> {
-    return this.once<T>(Event.ChildChanged)
+  onceChildChanged(): DataSnapshotObservable<T> {
+    return this.once(Event.ChildChanged)
   }
 
-  onceChildMoved<T>(): DataSnapshotObservable<T> {
-    return this.once<T>(Event.ChildMoved)
+  onceChildMoved(): DataSnapshotObservable<T> {
+    return this.once(Event.ChildMoved)
   }
 
-  onceChildRemoved<T>(): DataSnapshotObservable<T> {
-    return this.once<T>(Event.ChildRemoved)
+  onceChildRemoved(): DataSnapshotObservable<T> {
+    return this.once(Event.ChildRemoved)
   }
 
-  on<T>(event: EventType): DataSnapshotObservable<T> {
+  on(event: EventType): DataSnapshotObservable<T> {
     return new DataSnapshotObservable(sub => {
       const cb = this.getQueryOrRef().on(
         event, this.getEventHandler(sub),
-        err => sub.error(err)
+        (err: any) => sub.error(err)
       )
 
       return () => this.getQueryOrRef().off(event, cb)
     }).runInZone(this.ngZone)
   }
 
-  onValue<T>(): DataSnapshotObservable<T> {
-    return this.on<T>(Event.Value)
+  onValue(): DataSnapshotObservable<T> {
+    return this.on(Event.Value)
   }
 
-  onChildAdded<T>(): DataSnapshotObservable<T> {
-    return this.on<T>(Event.ChildAdded)
+  onChildAdded(): DataSnapshotObservable<T> {
+    return this.on(Event.ChildAdded)
   }
 
-  onChildChanged<T>(): DataSnapshotObservable<T> {
-    return this.on<T>(Event.ChildChanged)
+  onChildChanged(): DataSnapshotObservable<T> {
+    return this.on(Event.ChildChanged)
   }
 
-  onChildMoved<T>(): DataSnapshotObservable<T> {
-    return this.on<T>(Event.ChildMoved)
+  onChildMoved(): DataSnapshotObservable<T> {
+    return this.on(Event.ChildMoved)
   }
 
-  onChildRemoved<T>(): DataSnapshotObservable<T> {
-    return this.on<T>(Event.ChildRemoved)
+  onChildRemoved(): DataSnapshotObservable<T> {
+    return this.on(Event.ChildRemoved)
   }
 
-  isEqual(query: FirebaseQuery): boolean {
+  isEqual(query: FirebaseQuery<any>): boolean {
     return this.getQueryOrRef().isEqual(query.getQueryOrRef())
   }
 
@@ -162,27 +162,27 @@ export class FirebaseQuery {
     return this._ref
   }
 
-  private _call(fnName: string, ...args) {
+  private _call(fnName: string, ...args: any[]) {
     if (this.query) {
-      this.query = this.query[fnName](...args)
+      this.query = (this.query as any)[fnName](...args)
     }
     else {
-      this.query = this._ref[fnName](...args)
+      this.query = (this._ref as any)[fnName](...args)
     }
   }
 }
 
 
 export class FirebaseDatabaseRefConfig {
-  constructor(public parent: FirebaseDatabaseRef,
+  constructor(public parent: FirebaseDatabaseRef<any> | null,
               public ref: NativeDatabaseRef) {
   }
 }
 
 @Injectable()
-export class FirebaseDatabaseRef extends FirebaseQuery {
+export class FirebaseDatabaseRef<T> extends FirebaseQuery<T> {
 
-  static create(parent: FirebaseDatabaseRef,
+  static create(parent: FirebaseDatabaseRef<any> | null,
                 injector: Injector,
                 ref: NativeDatabaseRef) {
     const childInjector = ReflectiveInjector.resolveAndCreate([
@@ -208,7 +208,7 @@ export class FirebaseDatabaseRef extends FirebaseQuery {
     this.wrappedRef = this
   }
 
-  child(path: string): FirebaseDatabaseRef {
+  child<P extends keyof T>(path: P): FirebaseDatabaseRef<T[P]> {
     return FirebaseDatabaseRef.create(this, this.injector, this._ref.child(path))
   }
 
@@ -227,14 +227,14 @@ export class FirebaseDatabaseRef extends FirebaseQuery {
     return wrapPromise<void>(() => this._ref.setWithPriority(newVal, priority))
   }
 
-  push(value?: any): Observable<FirebaseDatabaseRef> {
+  push<P>(value?: P): Observable<FirebaseDatabaseRef<P>> {
     const pushRef = this._ref.push(value)
     const ref     = FirebaseDatabaseRef.create(this, this.injector, pushRef)
 
     // Only if a value to push was given, use ref as promise, since otherwise
     // pushRef.then will be undefined
     if (value) {
-      return wrapPromise<FirebaseDatabaseRef>(() => pushRef)
+      return wrapPromise<FirebaseDatabaseRef<P>>(() => pushRef)
         .mapTo(ref)
     }
     return Observable.of(ref)
@@ -261,12 +261,15 @@ export class FirebaseDatabaseRef extends FirebaseQuery {
 }
 
 @Injectable()
-export class FirebaseDatabase {
+export class FirebaseDatabase<T> {
 
   constructor(private db: NativeFirebaseDatabase,
               private injector: Injector) { }
 
-  ref(path?: string): FirebaseDatabaseRef {
+  ref(): FirebaseDatabaseRef<T>
+  ref(path: string): FirebaseDatabaseRef<any>
+  ref<F>(path: string): FirebaseDatabaseRef<F>
+  ref<F>(path?: string): FirebaseDatabaseRef<F> {
     return FirebaseDatabaseRef.create(null, this.injector, this.db.ref(path))
   }
 }

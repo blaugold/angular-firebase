@@ -1,0 +1,2 @@
+
+declare const firebaseConfig: any

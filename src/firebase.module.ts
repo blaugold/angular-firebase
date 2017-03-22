@@ -14,7 +14,7 @@ export function setLazyInvocation(lazy: boolean) {
   lazyInvocation = lazy
 }
 
-export function appFactory(injector: Injector, config) {
+export function appFactory(injector: Injector, config: FirebaseAppConfig) {
   return new FirebaseApp(config, injector)
 }
 

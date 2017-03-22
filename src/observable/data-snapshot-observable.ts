@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs'
-
 import { database } from 'firebase'
 
 export interface ExtendedDataSnapshot extends database.DataSnapshot {
@@ -12,9 +11,12 @@ export class DataSnapshotObservable<T> extends Observable<ExtendedDataSnapshot> 
     return this.map(snapshot => snapshot.exists())
   }
 
-  children<C>(): Observable<DataSnapshotObservable<C>> {
-    return this.map(snapshot => new DataSnapshotObservable(sub => {
-      snapshot.forEach(childSnapshot => {sub.next(childSnapshot); return false})
+  children(): Observable<DataSnapshotObservable<T[keyof T]>> {
+    return this.map(snapshot => new DataSnapshotObservable<T[keyof T]>(sub => {
+      snapshot.forEach(childSnapshot => {
+        sub.next(childSnapshot);
+        return false
+      })
       sub.complete()
     }))
   }
@@ -38,12 +40,24 @@ export class DataSnapshotObservable<T> extends Observable<ExtendedDataSnapshot> 
    * ```
    * @returns {Observable<C[]>}
    */
-  toValArray<C>(): Observable<C[]> {
-    return this.children<C>()
-      .mergeMap(children => children
-        .val()
-        .toArray()
-      )
+  toValArray(): Observable<T[keyof T][]> {
+    return this.children().mergeMap(children => children.val().toArray())
+  }
+
+  values(): Observable<T[keyof T][]> {
+    return this.toValArray();
+  }
+
+  keys(): Observable<string[]> {
+    return this.children().mergeMap(children => children.key().toArray())
+  }
+
+  list(): Observable<{ val: T[keyof T], key: string }[]> {
+    return this.children().mergeMap(children => children.entry().toArray())
+  }
+
+  entry(): Observable<{ val: T, key: string }> {
+    return this.map(snap => ({ val: snap.val(), key: snap.key }))
   }
 
   key(): Observable<string> {
@@ -59,7 +73,7 @@ export class DataSnapshotObservable<T> extends Observable<ExtendedDataSnapshot> 
     return this.map(snapshot => snapshot.prevKey)
   }
 
-  val<T>(): Observable<T> {
+  val(): Observable<T> {
     return this.map(snapshot => snapshot.val())
   }
 
@@ -67,7 +81,7 @@ export class DataSnapshotObservable<T> extends Observable<ExtendedDataSnapshot> 
     return this.map((snapshot: ExtendedDataSnapshot) => snapshot.getPriority())
   }
 
-  exportVal(): Observable<any> {
+  exportVal(): Observable<T> {
     return this.map((snapshot: ExtendedDataSnapshot) => snapshot.exportVal())
   }
 
@@ -83,8 +97,8 @@ export class DataSnapshotObservable<T> extends Observable<ExtendedDataSnapshot> 
     return this.map((snapshot: ExtendedDataSnapshot) => snapshot.numChildren())
   }
 
-  child<C>(path: string): DataSnapshotObservable<C> {
-    return new DataSnapshotObservable(sub => {
+  child<P extends keyof T>(path: P): DataSnapshotObservable<T[P]> {
+    return new DataSnapshotObservable<T[P]>(sub => {
       const subscription = this
         .map((snapshot: ExtendedDataSnapshot) => snapshot.child(path))
         .subscribe(sub)

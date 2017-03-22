@@ -23,7 +23,7 @@ export class FirebaseApp {
   nativeApp: NativeFirebaseApp
 
   private _auth: FirebaseAuth
-  private _database: FirebaseDatabase
+  private _database: FirebaseDatabase<any>
 
   constructor(public config: FirebaseAppConfig,
               private injector: Injector) {
@@ -49,7 +49,7 @@ export class FirebaseApp {
     return this._auth
   }
 
-  database(): FirebaseDatabase {
+  database<T>(): FirebaseDatabase<T> {
     if (!this._database) {
       const databaseInjector = ReflectiveInjector.resolveAndCreate([
         {

@@ -13,8 +13,8 @@ export class FirebaseUserCredential {
   user?: FirebaseUser;
 
   constructor(cred: UserCredential) {
-    this.credential = cred.credential;
-    this.user       = cred.user ? new FirebaseUser(cred.user) : null;
+    this.credential = cred.credential || undefined;
+    this.user       = cred.user ? new FirebaseUser(cred.user) : undefined;
   }
 }
 
@@ -80,11 +80,11 @@ export interface UpdatePasswordError extends FirebaseError {
 
 export class FirebaseUser {
 
-  get displayName(): string {
+  get displayName(): string | null {
     return this.user.displayName
   }
 
-  get email(): string {
+  get email(): string | null {
     return this.user.email
   }
 
@@ -96,11 +96,11 @@ export class FirebaseUser {
     return this.user.isAnonymous;
   }
 
-  get photoURL(): string {
+  get photoURL(): string | null {
     return this.user.photoURL;
   }
 
-  get providerData(): UserInfo[] {
+  get providerData(): (UserInfo | null)[] {
     return this.user.providerData;
   }
 

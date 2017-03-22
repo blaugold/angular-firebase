@@ -5,6 +5,7 @@ import { FirebaseApp } from './firebase-app.service'
 import { FirebaseModule } from './firebase.module'
 import { FirebaseDatabase } from './firebase-database.service'
 import { NgZone } from '@angular/core'
+import { FirebaseDatabaseRef } from './'
 
 let firebaseApp: FirebaseApp
 
@@ -21,17 +22,17 @@ describe('Service: FirebaseDatabase', () => {
     firebaseApp.delete().toPromise().then(done, done)
   })
 
-  beforeEach(done => inject([FirebaseDatabase], (fb: FirebaseDatabase) => {
+  beforeEach(done => inject([FirebaseDatabase], (fb: FirebaseDatabase<any>) => {
     expectObservableToComplete(done, fb.ref().set(null))
   })())
 
   it('should provide default FirebaseDatabase', inject([FirebaseDatabase],
-    (fb: FirebaseDatabase) => {
+    (fb: FirebaseDatabase<any>) => {
       expect(fb).toBe(firebaseApp.database())
     }))
 
   it('should set node', done => inject([FirebaseDatabase],
-    (fb: FirebaseDatabase) => {
+    (fb: FirebaseDatabase<any>) => {
       const ref = fb.ref('getProviders')
       expectObservableToComplete(done,
         ref.set('bar')
@@ -41,7 +42,7 @@ describe('Service: FirebaseDatabase', () => {
     })())
 
   it('should wrap callbacks to stay in current zone', done => inject([FirebaseDatabase, NgZone],
-    (fb: FirebaseDatabase, zone: NgZone) => {
+    (fb: FirebaseDatabase<any>, zone: NgZone) => {
       zone.run(() => {
         const angularZone = Zone.current
         fb.ref('getProviders')
@@ -52,7 +53,7 @@ describe('Service: FirebaseDatabase', () => {
     })())
 
   it('should update node', done => inject([FirebaseDatabase],
-    (fb: FirebaseDatabase) => {
+    (fb: FirebaseDatabase<any>) => {
       const ref = fb.ref('getProviders')
       expectObservableToComplete(done,
         ref.set({ a: 'A', b: 'B' })
@@ -63,7 +64,7 @@ describe('Service: FirebaseDatabase', () => {
     })())
 
   it('push node', done => inject([FirebaseDatabase],
-    (fb: FirebaseDatabase) => {
+    (fb: FirebaseDatabase<any>) => {
       const parent  = fb.ref('getProviders')
       const newNode = { a: 'A', b: 'B' }
       expectObservableToComplete(done,
@@ -74,7 +75,7 @@ describe('Service: FirebaseDatabase', () => {
     })())
 
   it('listen to updates', done => inject([FirebaseDatabase],
-    (fb: FirebaseDatabase) => {
+    (fb: FirebaseDatabase<any>) => {
       const node = fb.ref().child('getProviders')
 
       expectObservableToComplete(done,
@@ -85,7 +86,7 @@ describe('Service: FirebaseDatabase', () => {
     })())
 
   it('orderByChild', done => inject([FirebaseDatabase],
-    (fb: FirebaseDatabase) => {
+    (fb: FirebaseDatabase<any>) => {
       const node     = fb.ref('getProviders')
       const nodeData = {
         c: { c: 'c' },
@@ -109,7 +110,7 @@ describe('Service: FirebaseDatabase', () => {
     })())
 
   it('observable ops', done => inject([FirebaseDatabase],
-    (fb: FirebaseDatabase) => {
+    (fb: FirebaseDatabase<any>) => {
       const node     = fb.ref().child('getProviders')
       const nodeData = {
         a: {

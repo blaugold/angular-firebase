@@ -1,2 +1,0 @@
-
-declare var firebaseConfig: any
