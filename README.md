@@ -2,12 +2,14 @@
 
 [![CircleCI](https://circleci.com/gh/blaugold/angular-firebase.svg?style=svg&circle-token=bf5f61f7f9737852ea53e4e80981312624078636)](https://circleci.com/gh/blaugold/angular-firebase)
 
-Wrapper around Firebase JS-API for Angular 2 Apps.
+Wrapper around Firebase JS-API for Angular Apps.
 
-The library runs Firebase calls in the angular zone to make change detection work. It is focused on 
+The library runs Firebase calls inside zone.js to make change detection work. It is focused on 
 observables and returns them for every operation. To make working with observables and 
 Firebase easier, the returned observables are extended with helper operators and aliases to snapshot 
 methods.
+The library support type checking of a database schema to let the compiler catch misspellings and
+wrong access patterns.
 
 At the moment Auth and Database are implemented.
 
@@ -54,7 +56,7 @@ const todoLists = 'todoLists'
 @Injectable()
 export class TodoService {
 
-    constructor(private db: FirebaseDatabase) {}
+    constructor(private db: FirebaseDatabase<any>) {}
     
     addItem(listId: string, item: TodoItem): Observable<void> {
         return this.db.ref(todoLists).child(listId).push()
@@ -74,6 +76,45 @@ export class TodoService {
             // Calls .val() on all children and returns them in an array.
             .toValArray<TodoItem>()
     }
+}
+```
+
+To use a database schema define interfaces representing the structure of your tree.
+
+```typescript
+import { Injectable } from '@angular/core'
+import { FirebaseDatabase } from '@blaugold/angular-firebase'
+import { Observable } from 'rxjs/Observable'
+
+export interface UserData {
+  name: string
+  email: string
+  signedUpAt: number
+}
+
+export interface DatabaseSchema {
+  users: {
+    [uid: string]: UserData
+  }
+}
+
+@Injectable()
+export class UserService {
+
+  constructor(private db: FirebaseDatabase<DatabaseSchema>) {}
+    
+  // It is important to either use `db.ref()` without any argument or alternatively declare 
+  // the type of the part of the tree the ref points to: `db.ref<UserData>('/users/1')`
+
+  getUserName(uid: string): Observable<string> {
+    // No compile error
+    return this.db.ref().child('users').child(uid).child('name').val()
+  }
+  
+  getUserEmail(uid: string): Observable<string> {
+    // 'user' does not exist at that location in the schema so compiler will complain.  
+    return this.db.ref().child('user').child(uid).child('email').val()
+  }
 }
 ```
 
