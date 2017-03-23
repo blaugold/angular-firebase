@@ -1,5 +1,5 @@
 import { Injector, ReflectiveInjector } from '@angular/core'
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable'
 import * as firebase from 'firebase'
 import { FirebaseAuth } from './firebase-auth.service'
 import { FirebaseDatabase } from './firebase-database.service'

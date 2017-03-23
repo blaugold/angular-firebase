@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Observable'
-import { Observer } from 'rxjs'
+import { Observer } from 'rxjs/Observer'
 
 export function runInZone<T extends Observable<any>>(this: T): T {
   const z = Zone.current

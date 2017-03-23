@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core'
-import { Observable, Subscriber } from 'rxjs'
+import { Observable  } from 'rxjs/Observable'
+import { Subscriber } from 'rxjs/Subscriber'
 import { database } from 'firebase'
 import { NativeFirebaseDatabase } from './native-firebase'
 import { wrapPromise } from './utils'
 import { DataSnapshot } from './reexports'
 import { DataSnapshotObservable } from './observable/data-snapshot-observable'
 import './observable/add/run-in-zone'
+import 'rxjs/add/operator/mapTo'
+import 'rxjs/add/observable/of'
 
 export type NativeDatabaseRef = database.Reference
 export type Query = database.Query

@@ -1,10 +1,12 @@
-import { Injectable, NgZone } from '@angular/core'
-import { Observable, BehaviorSubject, ReplaySubject } from 'rxjs'
+import { Injectable } from '@angular/core'
+import { Observable } from 'rxjs/Observable'
+import { ReplaySubject } from 'rxjs/ReplaySubject'
 import { AuthProvider, AuthCredential } from './reexports'
 import { NativeFirebaseAuth, FirebaseError } from './native-firebase'
 import { wrapPromise } from './utils'
 import './observable/add/run-in-zone'
 import { FirebaseUser, FirebaseUserCredential } from './firebase-user'
+import 'rxjs/add/operator/map'
 
 export type AuthErrorCodeType =
   'auth/app-deleted'
