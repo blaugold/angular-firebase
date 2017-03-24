@@ -8,31 +8,24 @@ import 'zone.js/dist/sync-test'
 import 'zone.js/dist/async-test'
 import 'zone.js/dist/fake-async-test'
 import 'zone.js/dist/jasmine-patch'
+import { getTestBed } from '@angular/core/testing'
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting
+} from '@angular/platform-browser-dynamic/testing'
 
-declare var System: any
-declare var __karma__: any
+declare var __karma__: any;
+declare var require: any;
 
 __karma__.loaded = function () {}
 
-Promise.all([
-  System.import('@angular/core/testing'),
-  System.import('@angular/platform-browser-dynamic/testing')
-])
-  .then(([testing, browserTesting]) => {
-    testing.getTestBed().initTestEnvironment(
-      browserTesting.BrowserDynamicTestingModule,
-      browserTesting.platformBrowserDynamicTesting()
-    )
-  })
-  // Load test modules to run tests
-  // .then(() => (require as any).context('./spec', true, /\.spec\.ts$/))
-  // .then(execContext)
-  // Load all src modules to include uncovered areas in coverage report
-  .then(() => (require as any).context('./src', true, /\.ts$/))
-  .then(execContext)
-  // Start karma
-  .then(__karma__.start, __karma__.error)
+getTestBed().initTestEnvironment(
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting()
+)
 
-function execContext(context) {
-  context.keys().map(context)
-}
+const context = require.context('./src', true, /\.ts$/)
+
+context.keys().map(context)
+
+__karma__.start()
