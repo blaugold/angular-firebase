@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/blaugold/angular-firebase/compare/v2.1.0...v2.2.0) (2017-03-24)
+
+
+### Bug Fixes
+
+* **rxjs:** import operators individually ([8b71f55](https://github.com/blaugold/angular-firebase/commit/8b71f55))
+* don't import zone.js ([36681a3](https://github.com/blaugold/angular-firebase/commit/36681a3))
+* **rxjs:** import operators without poluting global objects ([05751b0](https://github.com/blaugold/angular-firebase/commit/05751b0))
+
+
+### Features
+
+* **deps:** upgrade to angular[@4](https://github.com/4).0.0 ([9137e3a](https://github.com/blaugold/angular-firebase/commit/9137e3a))
+
+
+
 <a name="2.1.0"></a>
 # [2.1.0](https://github.com/blaugold/angular-firebase/compare/v2.0.0...v2.1.0) (2017-03-22)
 
