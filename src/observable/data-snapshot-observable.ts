@@ -1,8 +1,8 @@
 import { database } from 'firebase'
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/mergeMap'
-import 'rxjs/add/operator/toArray'
 import { Observable } from 'rxjs/Observable'
+import { map } from 'rxjs/operator/map'
+import { mergeMap } from 'rxjs/operator/mergeMap'
+import { toArray } from 'rxjs/operator/toArray'
 
 export interface ExtendedDataSnapshot extends database.DataSnapshot {
   prevKey?: string
@@ -11,17 +11,18 @@ export interface ExtendedDataSnapshot extends database.DataSnapshot {
 export class DataSnapshotObservable<T> extends Observable<ExtendedDataSnapshot> {
 
   exists(): Observable<boolean> {
-    return this.map(snapshot => snapshot.exists())
+    return map.call(this, (snapshot: ExtendedDataSnapshot) => snapshot.exists());
   }
 
   children(): Observable<DataSnapshotObservable<T[keyof T]>> {
-    return this.map(snapshot => new DataSnapshotObservable<T[keyof T]>(sub => {
-      snapshot.forEach(childSnapshot => {
-        sub.next(childSnapshot);
-        return false
-      })
-      sub.complete()
-    }))
+    return map.call(this,
+      (snapshot: ExtendedDataSnapshot) => new DataSnapshotObservable<T[keyof T]>(sub => {
+        snapshot.forEach(childSnapshot => {
+          sub.next(childSnapshot);
+          return false
+        })
+        sub.complete()
+      }))
   }
 
   /**
@@ -44,7 +45,8 @@ export class DataSnapshotObservable<T> extends Observable<ExtendedDataSnapshot> 
    * @returns {Observable<C[]>}
    */
   toValArray(): Observable<T[keyof T][]> {
-    return this.children().mergeMap(children => children.val().toArray())
+    return mergeMap.call(this.children(),
+      (children: DataSnapshotObservable<T[keyof T]>) => toArray.call(children.val()))
   }
 
   values(): Observable<T[keyof T][]> {
@@ -52,19 +54,22 @@ export class DataSnapshotObservable<T> extends Observable<ExtendedDataSnapshot> 
   }
 
   keys(): Observable<string[]> {
-    return this.children().mergeMap(children => children.key().toArray())
+    return mergeMap.call(this.children(),
+      (children: DataSnapshotObservable<T[keyof T]>) => toArray.call(children.key()))
   }
 
   list(): Observable<{ val: T[keyof T], key: string }[]> {
-    return this.children().mergeMap(children => children.entry().toArray())
+    return mergeMap.call(this.children(),
+      (children: DataSnapshotObservable<T[keyof T]>) => toArray.call(children.entry()))
   }
 
   entry(): Observable<{ val: T, key: string }> {
-    return this.map(snap => ({ val: snap.val(), key: snap.key }))
+    return map.call(this,
+      (snapshot: ExtendedDataSnapshot) => ({ val: snapshot.val(), key: snapshot.key }))
   }
 
   key(): Observable<string> {
-    return this.map(snapshot => snapshot.key)
+    return map.call(this, (snapshot: ExtendedDataSnapshot) => snapshot.key)
   }
 
   /**
@@ -73,37 +78,37 @@ export class DataSnapshotObservable<T> extends Observable<ExtendedDataSnapshot> 
    * @returns {Observable<string>}
    */
   prevKey(): Observable<string> {
-    return this.map(snapshot => snapshot.prevKey)
+    return map.call(this, (snapshot: ExtendedDataSnapshot) => snapshot.prevKey)
   }
 
   val(): Observable<T> {
-    return this.map(snapshot => snapshot.val())
+    return map.call(this, (snapshot: ExtendedDataSnapshot) => snapshot.val())
   }
 
   getPriority(): Observable<number | string> {
-    return this.map((snapshot: ExtendedDataSnapshot) => snapshot.getPriority())
+    return map.call(this, (snapshot: ExtendedDataSnapshot) => snapshot.getPriority())
   }
 
   exportVal(): Observable<T> {
-    return this.map((snapshot: ExtendedDataSnapshot) => snapshot.exportVal())
+    return map.call(this, (snapshot: ExtendedDataSnapshot) => snapshot.exportVal())
   }
 
   hasChild(path: string): Observable<boolean> {
-    return this.map((snapshot: ExtendedDataSnapshot) => snapshot.hasChild(path))
+    return map.call(this, (snapshot: ExtendedDataSnapshot) => snapshot.hasChild(path))
   }
 
   hasChildren(): Observable<boolean> {
-    return this.map((snapshot: ExtendedDataSnapshot) => snapshot.hasChildren())
+    return map.call(this, (snapshot: ExtendedDataSnapshot) => snapshot.hasChildren())
   }
 
   numChildren(): Observable<number> {
-    return this.map((snapshot: ExtendedDataSnapshot) => snapshot.numChildren())
+    return map.call(this, (snapshot: ExtendedDataSnapshot) => snapshot.numChildren())
   }
 
   child<P extends keyof T>(path: P): DataSnapshotObservable<T[P]> {
     return new DataSnapshotObservable<T[P]>(sub => {
-      const subscription = this
-        .map((snapshot: ExtendedDataSnapshot) => snapshot.child(path))
+      const subscription = map.call(this,
+        (snapshot: ExtendedDataSnapshot) => snapshot.child(path))
         .subscribe(sub)
 
       return () => subscription.unsubscribe()

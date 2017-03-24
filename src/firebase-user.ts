@@ -1,6 +1,6 @@
 import { auth, User, UserInfo } from 'firebase'
-import 'rxjs/add/operator/map'
 import { Observable } from 'rxjs/Observable'
+import { map } from 'rxjs/operator/map'
 import { AuthErrorCodeType } from './firebase-auth.service'
 import { FirebaseError } from './native-firebase'
 import { AuthCredential } from './reexports'
@@ -133,8 +133,10 @@ export class FirebaseUser {
    * @returns {Observable<FirebaseUser>} - Returns {@link LinkUserError} if operation fails.
    */
   link(credential: AuthCredential): Observable<FirebaseUser> {
-    return wrapPromise(() => this.user.link(credential))
-      .map(user => new FirebaseUser(user));
+    return map.call(
+      wrapPromise(() => this.user.link(credential)),
+      (user: User) => new FirebaseUser(user)
+    );
   }
 
   /**
@@ -142,8 +144,10 @@ export class FirebaseUser {
    *     operation fails.
    */
   linkWithPopup(provider: auth.AuthProvider): Observable<FirebaseUserCredential> {
-    return wrapPromise(() => this.user.linkWithPopup(provider))
-      .map(cred => new FirebaseUserCredential(cred));
+    return map.call(
+      wrapPromise(() => this.user.linkWithPopup(provider)),
+      (cred: UserCredential) => new FirebaseUserCredential(cred)
+    );
   }
 
   /**
@@ -151,8 +155,10 @@ export class FirebaseUser {
    *     operation fails.
    */
   linkWithRedirect(provider: auth.AuthProvider): Observable<FirebaseUserCredential> {
-    return wrapPromise(() => this.user.linkWithRedirect(provider))
-      .map(cred => new FirebaseUserCredential(cred));
+    return map.call(
+      wrapPromise(() => this.user.linkWithRedirect(provider)),
+      (cred: UserCredential) => new FirebaseUserCredential(cred)
+    );
   }
 
   /**
@@ -172,8 +178,10 @@ export class FirebaseUser {
   }
 
   unlink(providerId: string): Observable<FirebaseUser> {
-    return wrapPromise(() => this.user.unlink(providerId))
-      .map(user => new FirebaseUser(user));
+    return map.call(
+      wrapPromise(() => this.user.unlink(providerId)),
+      (user: User) => new FirebaseUser(user)
+    );
   }
 
   /**

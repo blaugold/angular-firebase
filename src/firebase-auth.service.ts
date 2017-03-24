@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core'
-import 'rxjs/add/operator/map'
+import { auth, User } from 'firebase'
 import { Observable } from 'rxjs/Observable'
+import { map } from 'rxjs/operator/map'
 import { ReplaySubject } from 'rxjs/ReplaySubject'
 import { FirebaseUser, FirebaseUserCredential } from './firebase-user'
 import { FirebaseError, NativeFirebaseAuth } from './native-firebase'
-import './observable/add/run-in-zone'
+import { runInZone } from './observable/operator/run-in-zone'
 import { AuthCredential, AuthProvider } from './reexports'
 import { wrapPromise } from './utils'
 
@@ -139,12 +140,14 @@ export class FirebaseAuth {
   constructor(private fbAuth: NativeFirebaseAuth) {
     this.$user = new ReplaySubject<FirebaseUser | null>(1)
 
-    new Observable<FirebaseUser | null>(sub => fbAuth.onAuthStateChanged(
-      (user: firebase.User) => sub.next(user ? new FirebaseUser(user) : null),
-      err => sub.error(err),
-      () => sub.complete()
-    ))
-      .runInZone()
+    const onAuthStateChangedObs = new Observable<FirebaseUser | null>(
+      sub => fbAuth.onAuthStateChanged(
+        (user: firebase.User) => sub.next(user ? new FirebaseUser(user) : null),
+        err => sub.error(err),
+        () => sub.complete()
+      ))
+
+    runInZone.call(onAuthStateChangedObs)
       .subscribe(this.$user as ReplaySubject<FirebaseUser | null>)
   }
 
@@ -181,8 +184,10 @@ export class FirebaseAuth {
    *     operation fails.
    */
   createUserWithEmailAndPassword(email: string, password: string): Observable<FirebaseUser> {
-    return wrapPromise(() => this.fbAuth.createUserWithEmailAndPassword(email, password))
-      .map(user => new FirebaseUser(user));
+    return map.call(
+      wrapPromise(() => this.fbAuth.createUserWithEmailAndPassword(email, password)),
+      (user: User) => new FirebaseUser(user)
+    )
   }
 
   /**
@@ -200,8 +205,10 @@ export class FirebaseAuth {
    *     operation fails.
    */
   getRedirectResult(): Observable<FirebaseUserCredential> {
-    return wrapPromise(() => this.fbAuth.getRedirectResult())
-      .map(cred => new FirebaseUserCredential(cred));
+    return map.call(
+      wrapPromise(() => this.fbAuth.getRedirectResult()),
+      (cred: auth.UserCredential) => new FirebaseUserCredential(cred)
+    );
   }
 
   /**
@@ -218,8 +225,10 @@ export class FirebaseAuth {
    *     fails.
    */
   signInAnonymously(): Observable<FirebaseUser> {
-    return wrapPromise(() => this.fbAuth.signInAnonymously())
-      .map(user => new FirebaseUser(user));
+    return map.call(
+      wrapPromise(() => this.fbAuth.signInAnonymously()),
+      (user: User) => new FirebaseUser(user)
+    );
   }
 
   /**
@@ -228,8 +237,10 @@ export class FirebaseAuth {
    *     fails.
    */
   signInWithCredential(credential: AuthCredential): Observable<FirebaseUser> {
-    return wrapPromise(() => this.fbAuth.signInWithCredential(credential))
-      .map(user => new FirebaseUser(user));
+    return map.call(
+      wrapPromise(() => this.fbAuth.signInWithCredential(credential)),
+      (user: User) => new FirebaseUser(user)
+    );
   }
 
   /**
@@ -238,8 +249,10 @@ export class FirebaseAuth {
    *     fails.
    */
   signInWithCustomToken(token: string): Observable<FirebaseUser> {
-    return wrapPromise(() => this.fbAuth.signInWithCustomToken(token))
-      .map(user => new FirebaseUser(user));
+    return map.call(
+      wrapPromise(() => this.fbAuth.signInWithCustomToken(token)),
+      (user: User) => new FirebaseUser(user)
+    );
   }
 
   /**
@@ -249,8 +262,10 @@ export class FirebaseAuth {
    *     operation fails.
    */
   signInWithEmailAndPassword(email: string, password: string): Observable<FirebaseUser> {
-    return wrapPromise(() => this.fbAuth.signInWithEmailAndPassword(email, password))
-      .map(user => new FirebaseUser(user));
+    return map.call(
+      wrapPromise(() => this.fbAuth.signInWithEmailAndPassword(email, password)),
+      (user: User) => new FirebaseUser(user)
+    )
   }
 
   /**
@@ -258,8 +273,10 @@ export class FirebaseAuth {
    * @returns {Observable<FirebaseUser>} - Returns {@link SignInWithPopupError} if operation fails.
    */
   signInWithPopup(provider: AuthProvider): Observable<FirebaseUserCredential> {
-    return wrapPromise(() => this.fbAuth.signInWithPopup(provider))
-      .map(cred => new FirebaseUserCredential(cred));
+    return map.call(
+      wrapPromise(() => this.fbAuth.signInWithPopup(provider)),
+      (cred: auth.UserCredential) => new FirebaseUserCredential(cred)
+    );
   }
 
   /**
@@ -268,8 +285,10 @@ export class FirebaseAuth {
    *     fails.
    */
   signInWithRedirect(provider: AuthProvider): Observable<FirebaseUserCredential> {
-    return wrapPromise(() => this.fbAuth.signInWithRedirect(provider))
-      .map(cred => new FirebaseUserCredential(cred));
+    return map.call(
+      wrapPromise(() => this.fbAuth.signInWithRedirect(provider)),
+      (cred: auth.UserCredential) => new FirebaseUserCredential(cred)
+    );
   }
 
   signOut(): Observable<void> {

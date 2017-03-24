@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core'
 import { database } from 'firebase'
-import 'rxjs/add/observable/of'
-import 'rxjs/add/operator/mapTo'
 import { Observable } from 'rxjs/Observable'
+import { of } from 'rxjs/observable/of'
+import { mapTo } from 'rxjs/operator/mapTo'
 import { Subscriber } from 'rxjs/Subscriber'
 import { NativeFirebaseDatabase } from './native-firebase'
-import './observable/add/run-in-zone'
 import { DataSnapshotObservable } from './observable/data-snapshot-observable'
+import { runInZone } from './observable/operator/run-in-zone'
 import { DataSnapshot } from './reexports'
 import { wrapPromise } from './utils'
 
@@ -84,12 +84,12 @@ export class FirebaseQuery<T> {
   }
 
   once(event: EventType): DataSnapshotObservable<T> {
-    return new DataSnapshotObservable(sub => {
+    return runInZone.call(new DataSnapshotObservable(sub => {
       this.getQueryOrRef().once(
         event, this.getEventHandler(sub, true),
         (err: any) => () => sub.error(err)
       )
-    }).runInZone()
+    }))
   }
 
   onceValue(): DataSnapshotObservable<T> {
@@ -113,14 +113,14 @@ export class FirebaseQuery<T> {
   }
 
   on(event: EventType): DataSnapshotObservable<T> {
-    return new DataSnapshotObservable(sub => {
+    return runInZone.call(new DataSnapshotObservable(sub => {
       const cb = this.getQueryOrRef().on(
         event, this.getEventHandler(sub),
         (err: any) => sub.error(err)
       )
 
       return () => this.getQueryOrRef().off(event, cb)
-    }).runInZone()
+    }))
   }
 
   onValue(): DataSnapshotObservable<T> {
@@ -223,10 +223,9 @@ export class FirebaseDatabaseRef<T> extends FirebaseQuery<T> {
     // Only if a value to push was given, use ref as promise, since otherwise
     // pushRef.then will be undefined
     if (value) {
-      return wrapPromise<FirebaseDatabaseRef<P>>(() => pushRef)
-        .mapTo(ref)
+      return mapTo.call(wrapPromise<FirebaseDatabaseRef<P>>(() => pushRef), ref)
     }
-    return Observable.of(ref)
+    return of(ref)
   }
 
   update(value: Object): Observable<void> {
