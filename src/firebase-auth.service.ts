@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core'
 import { auth, User } from 'firebase'
 import { Observable } from 'rxjs/Observable'
 import { map } from 'rxjs/operator/map'
@@ -170,6 +171,7 @@ export interface ActionCodeInfo {
   email: string
 }
 
+@Injectable()
 export class FirebaseAuth {
 
   /**

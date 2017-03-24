@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core'
 import { database } from 'firebase'
 import { Observable } from 'rxjs/Observable'
 import { of } from 'rxjs/observable/of'
@@ -252,6 +253,7 @@ export class FirebaseDatabaseRef<T> extends FirebaseQuery<T> {
   }
 }
 
+@Injectable()
 export class FirebaseDatabase<T> {
 
   constructor(private db: NativeFirebaseDatabase) { }
