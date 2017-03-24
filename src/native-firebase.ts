@@ -1,4 +1,4 @@
-import { auth, database, app } from 'firebase'
+import { app, auth, database } from 'firebase'
 
 export abstract class NativeFirebaseApp implements app.App {
   name: string;
@@ -18,7 +18,7 @@ export abstract class NativeFirebaseApp implements app.App {
 export abstract class NativeFirebaseAuth implements auth.Auth {
   app: firebase.app.App;
 
-  abstract currentUser: firebase.User|null;
+  abstract currentUser: firebase.User | null;
 
   abstract applyActionCode(code: string): firebase.Promise<any>;
 
@@ -26,7 +26,7 @@ export abstract class NativeFirebaseAuth implements auth.Auth {
 
   abstract confirmPasswordReset(code: string, newPassword: string): firebase.Promise<any>;
 
-  abstract createCustomToken(uid: string, developerClaims?: Object|null): string;
+  abstract createCustomToken(uid: string, developerClaims?: Object | null): string;
 
   abstract createUserWithEmailAndPassword(email: string, password: string): firebase.Promise<any>;
 

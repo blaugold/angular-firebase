@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core'
+import 'rxjs/add/operator/map'
 import { Observable } from 'rxjs/Observable'
 import { ReplaySubject } from 'rxjs/ReplaySubject'
-import { AuthProvider, AuthCredential } from './reexports'
-import { NativeFirebaseAuth, FirebaseError } from './native-firebase'
-import { wrapPromise } from './utils'
-import './observable/add/run-in-zone'
 import { FirebaseUser, FirebaseUserCredential } from './firebase-user'
-import 'rxjs/add/operator/map'
+import { FirebaseError, NativeFirebaseAuth } from './native-firebase'
+import './observable/add/run-in-zone'
+import { AuthCredential, AuthProvider } from './reexports'
+import { wrapPromise } from './utils'
 
 export type AuthErrorCodeType =
   'auth/app-deleted'
-    | 'auth/app-not-authorized'
-    | 'auth/argument-error'
-    | 'auth/invalid-api-key'
-    | 'auth/invalid-user-token'
-    | 'auth/network-request-failed'
-    | 'auth/operation-not-allowed'
-    | 'auth/requires-recent-login'
-    | 'auth/too-many-requests'
-    | 'auth/unauthorized-domain'
-    | 'auth/user-disabled'
-    | 'auth/user-token-expired'
-    | 'auth/web-storage-unsupported'
+  | 'auth/app-not-authorized'
+  | 'auth/argument-error'
+  | 'auth/invalid-api-key'
+  | 'auth/invalid-user-token'
+  | 'auth/network-request-failed'
+  | 'auth/operation-not-allowed'
+  | 'auth/requires-recent-login'
+  | 'auth/too-many-requests'
+  | 'auth/unauthorized-domain'
+  | 'auth/user-disabled'
+  | 'auth/user-token-expired'
+  | 'auth/web-storage-unsupported'
 
 export interface AuthError extends FirebaseError {
   code: AuthErrorCodeType | string
@@ -114,7 +114,7 @@ export interface SignInWithPopupError extends AuthError {
 
 export interface SignInWithRedirectError extends AuthError {
   code: AuthErrorCodeType
-    |'auth/auth-domain-config-required'
+    | 'auth/auth-domain-config-required'
     | 'auth/operation-not-supported-in-this-environment'
     | 'auth/unauthorized-domain'
 }

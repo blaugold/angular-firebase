@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing'
-import { FirebaseModule } from './firebase.module'
 import { FirebaseAuth } from './firebase-auth.service'
 import { FirebaseUser } from './firebase-user'
+import { FirebaseModule } from './firebase.module'
 import { awaitPromise } from './utils.spec'
 
 describe('FirebaseUser', () => {

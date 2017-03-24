@@ -1,8 +1,8 @@
 /* tslint:disable:no-unused-variable */
-import { TestBed, inject } from '@angular/core/testing'
-import { FirebaseModule } from './firebase.module'
+import { inject, TestBed } from '@angular/core/testing'
 import { FirebaseApp } from './firebase-app.service'
 import { FirebaseAuth } from './firebase-auth.service'
+import { FirebaseModule } from './firebase.module'
 
 let firebaseApp: FirebaseApp
 

@@ -1,8 +1,8 @@
-import { Observable } from 'rxjs/Observable'
 import { database } from 'firebase'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/mergeMap'
 import 'rxjs/add/operator/toArray'
+import { Observable } from 'rxjs/Observable'
 
 export interface ExtendedDataSnapshot extends database.DataSnapshot {
   prevKey?: string

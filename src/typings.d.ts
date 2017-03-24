@@ -1,2 +1,1 @@
-
 declare const firebaseConfig: any

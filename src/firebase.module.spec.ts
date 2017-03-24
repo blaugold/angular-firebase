@@ -1,9 +1,9 @@
-import { TestBed } from '@angular/core/testing'
-import { FirebaseModule } from './firebase.module'
-import { FirebaseApp } from './firebase-app.service'
 import { InjectionToken } from '@angular/core'
+import { TestBed } from '@angular/core/testing'
+import { FirebaseApp } from './firebase-app.service'
 import { FirebaseAuth } from './firebase-auth.service'
 import { FirebaseDatabase } from './firebase-database.service'
+import { FirebaseModule } from './firebase.module'
 
 describe('Module: Firebase', () => {
 

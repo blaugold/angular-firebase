@@ -1,7 +1,7 @@
-import { NgModule, ModuleWithProviders, Injector, InjectionToken } from '@angular/core'
+import { InjectionToken, Injector, ModuleWithProviders, NgModule } from '@angular/core'
+import { FirebaseApp, FirebaseAppConfig } from './firebase-app.service'
 import { FirebaseAuth } from './firebase-auth.service'
 import { FirebaseDatabase } from './firebase-database.service'
-import { FirebaseAppConfig, FirebaseApp } from './firebase-app.service'
 
 /** @internal */
 let lazyInvocation = true

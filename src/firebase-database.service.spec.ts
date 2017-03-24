@@ -1,10 +1,10 @@
 /* tslint:disable:no-unused-variable */
-import { TestBed, inject } from '@angular/core/testing'
+import { NgZone } from '@angular/core'
+import { inject, TestBed } from '@angular/core/testing'
 import { Observable } from 'rxjs'
 import { FirebaseApp } from './firebase-app.service'
-import { FirebaseModule } from './firebase.module'
 import { FirebaseDatabase } from './firebase-database.service'
-import { NgZone } from '@angular/core'
+import { FirebaseModule } from './firebase.module'
 
 let firebaseApp: FirebaseApp
 

@@ -1,10 +1,10 @@
-import { UserInfo, auth, User } from 'firebase'
+import { auth, User, UserInfo } from 'firebase'
+import 'rxjs/add/operator/map'
 import { Observable } from 'rxjs/Observable'
+import { AuthErrorCodeType } from './firebase-auth.service'
 import { FirebaseError } from './native-firebase'
 import { AuthCredential } from './reexports'
 import { wrapPromise } from './utils'
-import { AuthErrorCodeType } from './firebase-auth.service'
-import 'rxjs/add/operator/map'
 
 export type UserCredential = auth.UserCredential;
 
