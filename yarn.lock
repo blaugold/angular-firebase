@@ -73,9 +73,9 @@
   version "2.0.29"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-2.0.29.tgz#5002e14f75e2d71e564281df0431c8c1b4a2a36a"
 
-"@types/node@*", "@types/node@^7.0.8":
-  version "7.0.8"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.8.tgz#25e4dd804b630c916ae671233e6d71f6ce18124a"
+"@types/node@*", "@types/node@^7.0.10":
+  version "7.0.10"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.10.tgz#d860abb18c1b58b552c7c6cd8b2ba7adf6546fa3"
 
 "@types/node@^6.0.46":
   version "6.0.65"
@@ -3555,9 +3555,9 @@ typedoc-default-themes@^0.4.2:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.4.3.tgz#39014c515585f27e59773d29e8921a5b8b89d4c0"
 
-typedoc@^0.5.8:
-  version "0.5.8"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.5.8.tgz#06d7ac236e258e0734373a585ebedfde1eadd56d"
+typedoc@^0.5.9:
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.5.9.tgz#e34982438b657a890cfd85e88258b3d875982410"
   dependencies:
     "@types/fs-extra" "0.0.33"
     "@types/handlebars" "^4.0.31"
@@ -3692,9 +3692,9 @@ webpack-sources@^0.2.0:
     source-list-map "^1.0.1"
     source-map "~0.5.3"
 
-webpack@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-2.3.0.tgz#0ae2d90350a7d48a44fddd7dd85c855642bc042e"
+webpack@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-2.3.1.tgz#55bce8baffe7c1f9dc3029adc048643b448318a8"
   dependencies:
     acorn "^4.0.4"
     acorn-dynamic-import "^2.0.0"
