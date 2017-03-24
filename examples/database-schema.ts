@@ -1,4 +1,4 @@
-import { FirebaseDatabase } from '@blaugold/angular-firebase'
+import { FirebaseDatabase } from '../angular-firebase'
 import 'rxjs/add/operator/map'
 
 /**
@@ -27,7 +27,11 @@ db.ref().child('todoLists').child('1').child('todoItems')
 
 db.ref().child('todoLists').child('1').child('name').onValue().val()
   .map((name: string /* Compiles since `name`has type string. */) => {})
-  
+
+db.ref().child('todoLists')
+  .orderByChild('name').startAt('A')
+  .onChildChanged().val()
+  .map(c => c.name)
 
 // Should not compile.
 db.ref().child('todoLists').child('1').child('todoItemz') // todoItemz should be todoItems.

@@ -44,7 +44,7 @@ export class FirebaseQuery<T> {
 
   constructor(protected _ref: NativeDatabaseRef) {}
 
-  orderByChild(child: string): FirebaseQuery<T> {
+  orderByChild(child: keyof T[keyof T]): FirebaseQuery<T> {
     this._call('orderByChild', child)
     return this
   }
@@ -64,17 +64,17 @@ export class FirebaseQuery<T> {
     return this
   }
 
-  startAt(value: number | string | boolean | null, key?: string): FirebaseQuery<T> {
+  startAt(value: number | string | boolean | null, key?: keyof T[keyof T]): FirebaseQuery<T> {
     this._call('startAt', value, key)
     return this
   }
 
-  endAt(value: number | string | boolean | null, key?: string): FirebaseQuery<T> {
+  endAt(value: number | string | boolean | null, key?: keyof T[keyof T]): FirebaseQuery<T> {
     this._call('endAt', value, key)
     return this
   }
 
-  equalTo(value: number | string | boolean | null, key?: string): FirebaseQuery<T> {
+  equalTo(value: number | string | boolean | null, key?: keyof T[keyof T]): FirebaseQuery<T> {
     this._call('equalTo', value, key)
     return this
   }
@@ -89,7 +89,12 @@ export class FirebaseQuery<T> {
     return this
   }
 
-  once(event: EventType): DataSnapshotObservable<T> {
+  once(event: 'value'): DataSnapshotObservable<T>
+  once(event: 'child_added'): DataSnapshotObservable<T[keyof T]>
+  once(event: 'child_changed'): DataSnapshotObservable<T[keyof T]>
+  once(event: 'child_moved'): DataSnapshotObservable<T[keyof T]>
+  once(event: 'child_removed'): DataSnapshotObservable<T[keyof T]>
+  once(event: EventType): DataSnapshotObservable<T | T[keyof T]> {
     return runInZone.call(new DataSnapshotObservable(sub => {
       this.getQueryOrRef().once(
         event, this.getEventHandler(sub, true),
@@ -99,26 +104,31 @@ export class FirebaseQuery<T> {
   }
 
   onceValue(): DataSnapshotObservable<T> {
-    return this.once(Event.Value)
+    return this.once('value')
   }
 
-  onceChildAdded(): DataSnapshotObservable<T> {
-    return this.once(Event.ChildAdded)
+  onceChildAdded(): DataSnapshotObservable<T[keyof T]> {
+    return this.once('child_added')
   }
 
-  onceChildChanged(): DataSnapshotObservable<T> {
-    return this.once(Event.ChildChanged)
+  onceChildChanged(): DataSnapshotObservable<T[keyof T]> {
+    return this.once('child_changed')
   }
 
-  onceChildMoved(): DataSnapshotObservable<T> {
-    return this.once(Event.ChildMoved)
+  onceChildMoved(): DataSnapshotObservable<T[keyof T]> {
+    return this.once('child_moved')
   }
 
-  onceChildRemoved(): DataSnapshotObservable<T> {
-    return this.once(Event.ChildRemoved)
+  onceChildRemoved(): DataSnapshotObservable<T[keyof T]> {
+    return this.once('child_removed')
   }
 
-  on(event: EventType): DataSnapshotObservable<T> {
+  on(event: 'value'): DataSnapshotObservable<T>
+  on(event: 'child_added'): DataSnapshotObservable<T[keyof T]>
+  on(event: 'child_changed'): DataSnapshotObservable<T[keyof T]>
+  on(event: 'child_moved'): DataSnapshotObservable<T[keyof T]>
+  on(event: 'child_removed'): DataSnapshotObservable<T[keyof T]>
+  on(event: EventType): DataSnapshotObservable<T | T[keyof T]> {
     return runInZone.call(new DataSnapshotObservable(sub => {
       const cb = this.getQueryOrRef().on(
         event, this.getEventHandler(sub),
@@ -130,23 +140,23 @@ export class FirebaseQuery<T> {
   }
 
   onValue(): DataSnapshotObservable<T> {
-    return this.on(Event.Value)
+    return this.on('value')
   }
 
-  onChildAdded(): DataSnapshotObservable<T> {
-    return this.on(Event.ChildAdded)
+  onChildAdded(): DataSnapshotObservable<T[keyof T]> {
+    return this.on('child_added')
   }
 
-  onChildChanged(): DataSnapshotObservable<T> {
-    return this.on(Event.ChildChanged)
+  onChildChanged(): DataSnapshotObservable<T[keyof T]> {
+    return this.on('child_changed')
   }
 
-  onChildMoved(): DataSnapshotObservable<T> {
-    return this.on(Event.ChildMoved)
+  onChildMoved(): DataSnapshotObservable<T[keyof T]> {
+    return this.on('child_moved')
   }
 
-  onChildRemoved(): DataSnapshotObservable<T> {
-    return this.on(Event.ChildRemoved)
+  onChildRemoved(): DataSnapshotObservable<T[keyof T]> {
+    return this.on('child_removed')
   }
 
   isEqual(query: FirebaseQuery<any>): boolean {
@@ -253,8 +263,31 @@ export class FirebaseDatabaseRef<T> extends FirebaseQuery<T> {
   }
 }
 
+/**
+ * A special object with information about the connection between client and server which can be
+ * accessed by using `db.ref('.info')`.
+ */
+export class InfoSchema {
+  /**
+   * Whether or not the client is connected to the server.
+   */
+  connected: boolean
+  /**
+   * The estimated offset of time in milliseconds between client and server.
+   */
+  serverTimeOffset: number
+}
+
 @Injectable()
 export class FirebaseDatabase<T> {
+
+  /**
+   * A collection of special constants which can be used when writing data. Their values will be
+   * substituted on the server with server generated values.
+   * E.g {@link FirebaseDatabase.ServerValue.TIMESTAMP} will be substituted for the server time
+   * when committing a write.
+   */
+  static ServerValue = database.ServerValue
 
   constructor(private db: NativeFirebaseDatabase) { }
 
@@ -270,6 +303,7 @@ export class FirebaseDatabase<T> {
    * fetching it.
    */
   ref(): FirebaseDatabaseRef<T>
+  ref(path: '.info'): FirebaseDatabaseRef<InfoSchema>
   ref(path: string): FirebaseDatabaseRef<any>
   ref<F>(path: string): FirebaseDatabaseRef<F>
   ref<F>(path?: string): FirebaseDatabaseRef<F> {
