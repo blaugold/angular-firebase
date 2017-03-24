@@ -7,8 +7,13 @@
     "experimentalDecorators": true,
     "module": "commonjs",
     "moduleResolution": "node",
-    "lib": ["es2015", "dom"],
-    "target": "es6",
+    "lib": [
+      "es5",
+      "dom",
+      "es2015.promise",
+      "es2015.collection"
+    ],
+    "target": "es5",
     "types": [
       "node",
       "jasmine",

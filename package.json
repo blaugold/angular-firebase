@@ -8,8 +8,10 @@
     "Observable",
     "RxJS"
   ],
-  "main": "src/index.js",
-  "module": "src/index.js",
+  "main": "dist/angular-firebase.umd.js",
+  "module": "dist/angular-firebase.js",
+  "jsnext:main": "dist/angular-firebase.js",
+  "es2015": "dist/angular-firebase.js",
   "typings": "src/index.d.ts",
   "engines": {
     "node": ">=5.0.0"
@@ -24,10 +26,11 @@
     "copy": "cpy package.json README.md release",
     "aot": "./node_modules/.bin/ngc -p ./src/tsconfig.json",
     "tsc": "./node_modules/.bin/tsc -p ./src/tsconfig.json",
-    "clean:pre": "rimraf ./release ./compiled && mkdir ./release && mkdir ./compiled",
-    "clean:post": "rimraf src/**/*.ngfactory.ts",
+    "rollup": "rollup -c",
+    "clean:pre": "rimraf ./release ./compiled",
+    "clean:post": "rimraf ./src/**/*.ngfactory.ts \"./release/src/**/*.js?(.map)\"",
     "prebuild": "npm run clean:pre",
-    "build": "npm run tsc && npm run aot",
+    "build": "npm run tsc && npm run aot && npm run rollup",
     "postbuild": "npm run copy && npm run clean:post",
     "release": "standard-version"
   },
@@ -64,6 +67,7 @@
     "karma-remap-istanbul": "^0.6.0",
     "karma-webpack": "^2.0.3",
     "rimraf": "^2.6.1",
+    "rollup": "^0.41.6",
     "rxjs": "^5.2.0",
     "sourcemap-istanbul-instrumenter-loader": "^0.2.0",
     "standard-version": "^4.0.0",
