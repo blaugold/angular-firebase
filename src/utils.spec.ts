@@ -1,6 +1,7 @@
-import { wrapExternalPromise } from './utils'
 import { async } from '@angular/core/testing'
-export function awaitPromise(promFact: () => Promise<any>): (done) => void {
+import { wrapExternalPromise } from './utils'
+
+export function awaitPromise(promFact: () => Promise<any>): (done: () => void) => void {
   return done => {
     promFact().then(done, err => fail(err));
   }

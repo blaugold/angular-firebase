@@ -1,23 +1,13 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "declaration": true,
     "stripInternal": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "module": "es2015",
-    "moduleResolution": "node",
     "noEmitOnError": true,
-    "strictNullChecks": true,
-    "noImplicitAny": true,
     "outDir": "../release",
-    "rootDir": "./",
     "sourceMap": true,
-    "lib": [
-      "es6",
-      "dom"
-    ],
-    "target": "es5",
-    "types": []
+    "target": "es5"
   },
   "files": [
     "index.ts",

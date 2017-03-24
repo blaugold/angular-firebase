@@ -36,7 +36,7 @@ describe('FirebaseUser', () => {
       expect(user.providerId).toBe('firebase');
       expect(user.uid.length > 10).toBeTruthy();
       expect(user.refreshToken).toBeDefined();
-      expect(user.providerData[0].uid).toEqual(user.email)
+      expect(user.providerData[0]!.uid).toEqual(user.email as string)
     })
 
     it('should get token', awaitPromise(async function () {

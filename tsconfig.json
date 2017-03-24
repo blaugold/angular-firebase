@@ -2,6 +2,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": ".",
+    "strictNullChecks": true,
+    "noImplicitAny": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "module": "commonjs",
@@ -18,6 +20,8 @@
     "node_modules",
     "compiled",
     "release",
-    "docs"
+    "docs",
+    "test",
+    "examples"
   ]
 }
