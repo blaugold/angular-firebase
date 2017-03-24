@@ -143,3 +143,8 @@ firebase.config.local.json
 /release
 *.ngfactory.ts
 /compiled
+
+dist
+
+ngfactory
+output

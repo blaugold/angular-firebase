@@ -1,7 +1,0 @@
-export * from './observable/data-snapshot-observable'
-export { FirebaseModule, setLazyInvocation } from './firebase.module'
-export * from './firebase-app.service'
-export * from './firebase-auth.service'
-export * from './firebase-database.service'
-export * from './firebase-user'
-export * from './reexports'

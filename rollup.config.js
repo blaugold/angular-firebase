@@ -8,7 +8,7 @@ const external = [
 ];
 
 export default {
-  entry: './release/src/index.js',
+  entry: './release/angular-firebase.js',
   external,
   targets: [
     {

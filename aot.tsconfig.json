@@ -1,21 +1,21 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": ".",
+    "inlineSources": true,
     "declaration": true,
     "stripInternal": true,
     "module": "es2015",
     "noEmitOnError": true,
-    "outDir": "../release",
+    "outDir": "./release",
     "sourceMap": true,
-    "target": "es5"
+    "skipLibCheck": true
   },
   "files": [
-    "index.ts",
-    "typings.d.ts"
+    "./angular-firebase.ts"
   ],
   "angularCompilerOptions": {
-    "genDir": "../compiled",
-    "skipMetadataEmit": false,
-    "strictMetadataEmit": true
+    "genDir": "compiled"
   }
 }
