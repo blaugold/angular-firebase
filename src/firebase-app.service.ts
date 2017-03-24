@@ -9,7 +9,13 @@ import { wrapPromise } from './utils'
 let lastAppId = 0
 
 export interface FirebaseAppConfig {
+  /**
+   * Name of the app internally used by firebase. If non is given one will be generated.
+   */
   name?: string
+  /**
+   * Firebase App configuration.
+   */
   options: {
     apiKey: string
     authDomain?: string
@@ -35,6 +41,9 @@ export class FirebaseApp {
     return wrapPromise<void>(() => this.nativeApp.delete())
   }
 
+  /**
+   * Get the with this {@link FirebaseApp} associated {@link FirebaseAuth} instance.
+   */
   auth(): FirebaseAuth {
     if (!this._auth) {
       const authInjector = ReflectiveInjector.resolveAndCreate([
@@ -49,6 +58,12 @@ export class FirebaseApp {
     return this._auth
   }
 
+  /**
+   * Get the with this {@link FirebaseApp} associated {@link FirebaseDatabase}.
+   *
+   * The type parameter T is used to supply the schema of your database. If you do not want to
+   * use one set it to `any`. Using a schema provides type safety when accessing the database.
+   */
   database<T>(): FirebaseDatabase<T> {
     if (!this._database) {
       const databaseInjector = ReflectiveInjector.resolveAndCreate([

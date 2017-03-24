@@ -117,22 +117,19 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Firebase<wbr>Auth<span class="tsd-signature-symbol">(</span>fbAuth<span class="tsd-signature-symbol">: </span><a href="nativefirebaseauth.html" class="tsd-signature-type">NativeFirebaseAuth</a>, ngZone<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">NgZone</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="firebaseauth.html" class="tsd-signature-type">FirebaseAuth</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Firebase<wbr>Auth<span class="tsd-signature-symbol">(</span>fbAuth<span class="tsd-signature-symbol">: </span><a href="nativefirebaseauth.html" class="tsd-signature-type">NativeFirebaseAuth</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="firebaseauth.html" class="tsd-signature-type">FirebaseAuth</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-auth.service.ts#L137">src/firebase-auth.service.ts:137</a></li>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-auth.service.ts#L178">src/firebase-auth.service.ts:178</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>fbAuth: <a href="nativefirebaseauth.html" class="tsd-signature-type">NativeFirebaseAuth</a></h5>
-								</li>
-								<li>
-									<h5>ngZone: <span class="tsd-signature-type">NgZone</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="firebaseauth.html" class="tsd-signature-type">FirebaseAuth</a></h4>
@@ -145,12 +142,17 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="_user" class="tsd-anchor"></a>
 					<h3>$user</h3>
-					<div class="tsd-signature tsd-kind-icon">$user<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#userauthevent" class="tsd-signature-type">UserAuthEvent</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<div class="tsd-signature tsd-kind-icon">$user<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="firebaseuser.html" class="tsd-signature-type">FirebaseUser</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-auth.service.ts#L137">src/firebase-auth.service.ts:137</a></li>
+							<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-auth.service.ts#L178">src/firebase-auth.service.ts:178</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Observable which emits when authorization state of the user changes.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -165,7 +167,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-auth.service.ts#L155">src/firebase-auth.service.ts:155</a></li>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-auth.service.ts#L198">src/firebase-auth.service.ts:198</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -193,7 +195,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-auth.service.ts#L163">src/firebase-auth.service.ts:163</a></li>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-auth.service.ts#L206">src/firebase-auth.service.ts:206</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -221,7 +223,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-auth.service.ts#L172">src/firebase-auth.service.ts:172</a></li>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-auth.service.ts#L215">src/firebase-auth.service.ts:215</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -252,7 +254,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-auth.service.ts#L183">src/firebase-auth.service.ts:183</a></li>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-auth.service.ts#L226">src/firebase-auth.service.ts:226</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -284,7 +286,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-auth.service.ts#L194">src/firebase-auth.service.ts:194</a></li>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-auth.service.ts#L239">src/firebase-auth.service.ts:239</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -313,7 +315,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-auth.service.ts#L202">src/firebase-auth.service.ts:202</a></li>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-auth.service.ts#L247">src/firebase-auth.service.ts:247</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -336,7 +338,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-auth.service.ts#L211">src/firebase-auth.service.ts:211</a></li>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-auth.service.ts#L258">src/firebase-auth.service.ts:258</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -364,7 +366,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-auth.service.ts#L220">src/firebase-auth.service.ts:220</a></li>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-auth.service.ts#L267">src/firebase-auth.service.ts:267</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -387,7 +389,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-auth.service.ts#L230">src/firebase-auth.service.ts:230</a></li>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-auth.service.ts#L279">src/firebase-auth.service.ts:279</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -416,7 +418,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-auth.service.ts#L240">src/firebase-auth.service.ts:240</a></li>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-auth.service.ts#L291">src/firebase-auth.service.ts:291</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -445,7 +447,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-auth.service.ts#L251">src/firebase-auth.service.ts:251</a></li>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-auth.service.ts#L304">src/firebase-auth.service.ts:304</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -477,7 +479,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-auth.service.ts#L260">src/firebase-auth.service.ts:260</a></li>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-auth.service.ts#L315">src/firebase-auth.service.ts:315</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -505,7 +507,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-auth.service.ts#L270">src/firebase-auth.service.ts:270</a></li>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-auth.service.ts#L327">src/firebase-auth.service.ts:327</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -534,7 +536,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-auth.service.ts#L275">src/firebase-auth.service.ts:275</a></li>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-auth.service.ts#L334">src/firebase-auth.service.ts:334</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -551,7 +553,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-auth.service.ts#L285">src/firebase-auth.service.ts:285</a></li>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-auth.service.ts#L344">src/firebase-auth.service.ts:344</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

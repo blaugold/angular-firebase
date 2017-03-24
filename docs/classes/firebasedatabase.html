@@ -57,13 +57,21 @@
 					<a href="firebasedatabase.html">FirebaseDatabase</a>
 				</li>
 			</ul>
-			<h1>Class FirebaseDatabase</h1>
+			<h1>Class FirebaseDatabase&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>T</h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -85,7 +93,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="firebasedatabase.html#ref" class="tsd-kind-icon">ref</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="firebasedatabase.html#ref" class="tsd-kind-icon">ref</a></li>
 							</ul>
 						</section>
 					</div>
@@ -97,22 +105,19 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Firebase<wbr>Database<span class="tsd-signature-symbol">(</span>db<span class="tsd-signature-symbol">: </span><a href="nativefirebasedatabase.html" class="tsd-signature-type">NativeFirebaseDatabase</a>, injector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Injector</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="firebasedatabase.html" class="tsd-signature-type">FirebaseDatabase</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Firebase<wbr>Database<span class="tsd-signature-symbol">(</span>db<span class="tsd-signature-symbol">: </span><a href="nativefirebasedatabase.html" class="tsd-signature-type">NativeFirebaseDatabase</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="firebasedatabase.html" class="tsd-signature-type">FirebaseDatabase</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-database.service.ts#L264">src/firebase-database.service.ts:264</a></li>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-database.service.ts#L255">src/firebase-database.service.ts:255</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>db: <a href="nativefirebasedatabase.html" class="tsd-signature-type">NativeFirebaseDatabase</a></h5>
-								</li>
-								<li>
-									<h5>injector: <span class="tsd-signature-type">Injector</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="firebasedatabase.html" class="tsd-signature-type">FirebaseDatabase</a></h4>
@@ -122,26 +127,68 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 					<a name="ref" class="tsd-anchor"></a>
 					<h3>ref</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">ref<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="firebasedatabaseref.html" class="tsd-signature-type">FirebaseDatabaseRef</a></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">ref<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="firebasedatabaseref.html" class="tsd-signature-type">FirebaseDatabaseRef</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">ref<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="firebasedatabaseref.html" class="tsd-signature-type">FirebaseDatabaseRef</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">ref&lt;F&gt;<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="firebasedatabaseref.html" class="tsd-signature-type">FirebaseDatabaseRef</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">F</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/45e2b00/src/firebase-database.service.ts#L269">src/firebase-database.service.ts:269</a></li>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-database.service.ts#L270">src/firebase-database.service.ts:270</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get a <a href="firebasedatabaseref.html">FirebaseDatabaseRef</a> to a location in the database.</p>
+								</div>
+								<p>If you have defined a database schema you should use <a href="firebasedatabase.html#ref">FirebaseDatabase.ref</a> without
+									specifying a path in the database. At least not without giving a type parameter for the data
+									at that location. When using a schema you get the benefit of correct typing when using
+									<a href="firebasedatabaseref.html#child">FirebaseDatabaseRef.child</a>. The TypeScript compiler can infer from the path segments
+									given to <a href="firebasedatabaseref.html#child">FirebaseDatabaseRef.child</a> whether the path segment is valid at this
+									location in the database and what the type of the data is that will be returned when
+								fetching it.</p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="firebasedatabaseref.html" class="tsd-signature-type">FirebaseDatabaseRef</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-database.service.ts#L271">src/firebase-database.service.ts:271</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> path: <span class="tsd-signature-type">string</span></h5>
+									<h5>path: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="firebasedatabaseref.html" class="tsd-signature-type">FirebaseDatabaseRef</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="firebasedatabaseref.html" class="tsd-signature-type">FirebaseDatabaseRef</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blaugold/angular-firebase/blob/9f51d68/src/firebase-database.service.ts#L272">src/firebase-database.service.ts:272</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>F</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>path: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="firebasedatabaseref.html" class="tsd-signature-type">FirebaseDatabaseRef</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">F</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -159,13 +206,13 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class">
+					<li class="current tsd-kind-class tsd-has-type-parameter">
 						<a href="firebasedatabase.html" class="tsd-kind-icon">Firebase<wbr>Database</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="firebasedatabase.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="firebasedatabase.html#ref" class="tsd-kind-icon">ref</a>
 							</li>
 						</ul>

@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core'
 import { auth, User } from 'firebase'
 import { Observable } from 'rxjs/Observable'
 import { map } from 'rxjs/operator/map'
@@ -9,6 +8,9 @@ import { runInZone } from './observable/operator/run-in-zone'
 import { AuthCredential, AuthProvider } from './reexports'
 import { wrapPromise } from './utils'
 
+/**
+ * General error codes which may occur with every operation.
+ */
 export type AuthErrorCodeType =
   'auth/app-deleted'
   | 'auth/app-not-authorized'
@@ -38,6 +40,9 @@ export interface ActionCodeError extends AuthError {
     | 'auth/user-not-found'
 }
 
+/**
+ * Error codes which can occur when calling {@link FirebaseAuth.confirmPasswordReset}
+ */
 export interface ConfirmPasswordResetError extends AuthError {
   code: AuthErrorCodeType
     | 'auth/expired-action-code'
@@ -47,6 +52,9 @@ export interface ConfirmPasswordResetError extends AuthError {
     | 'auth/weak-password'
 }
 
+/**
+ * Error codes which can occur when calling {@link FirebaseAuth.createUserWithEmailAndPassword}
+ */
 export interface CreateUserWithEmailAndPasswordError extends AuthError {
   code: AuthErrorCodeType
     | 'auth/email-already-in-use'
@@ -55,28 +63,43 @@ export interface CreateUserWithEmailAndPasswordError extends AuthError {
     | 'auth/weak-password'
 }
 
+/**
+ * Error codes which can occur when calling {@link FirebaseAuth.fetchProvidersForEmail}
+ */
 export interface FetchProvidersForEmailError extends AuthError {
   code: AuthErrorCodeType
     | 'auth/invalid-email'
 }
 
+/**
+ * Error codes which can occur when calling {@link FirebaseAuth.getRedirectResult}
+ */
 export interface GetRedirectResultError extends AuthError {
   code: AuthErrorCodeType
     | 'auth/invalid-email'
     | 'auth/user-not-found'
 }
 
+/**
+ * Error codes which can occur when calling {@link FirebaseAuth.sendPasswordResetEmail}
+ */
 export interface SendPasswordResetEmailError extends AuthError {
   code: AuthErrorCodeType
     | 'auth/invalid-email'
     | 'auth/user-not-found'
 }
 
+/**
+ * Error codes which can occur when calling {@link FirebaseAuth.signInAnonymously}
+ */
 export interface SignInAnonymouslyError extends AuthError {
   code: AuthErrorCodeType
     | 'auth/operation-not-allowed'
 }
 
+/**
+ * Error codes which can occur when calling {@link FirebaseAuth.signInWithCredential}
+ */
 export interface SignInWithCredentialError extends AuthError {
   code: AuthErrorCodeType
     | 'auth/account-exists-with-different-credential'
@@ -87,12 +110,18 @@ export interface SignInWithCredentialError extends AuthError {
     | 'auth/wrong-password'
 }
 
+/**
+ * Error codes which can occur when calling {@link FirebaseAuth.signInWithCustomToken}
+ */
 export interface SignInWithCustomTokenError extends AuthError {
   code: AuthErrorCodeType
     | 'auth/custom-token-mismatch'
     | 'auth/invalid-custom-token'
 }
 
+/**
+ * Error codes which can occur when calling {@link FirebaseAuth.signInWithEmailAndPassword}
+ */
 export interface SignInWithEmailAndPasswordError extends AuthError {
   code: AuthErrorCodeType
     | 'auth/invalid-email'
@@ -101,6 +130,9 @@ export interface SignInWithEmailAndPasswordError extends AuthError {
     | 'auth/wrong-password'
 }
 
+/**
+ * Error codes which can occur when calling {@link FirebaseAuth.signInWithPopup}
+ */
 export interface SignInWithPopupError extends AuthError {
   code: AuthErrorCodeType
     | 'auth/account-exists-with-different-credential'
@@ -113,6 +145,9 @@ export interface SignInWithPopupError extends AuthError {
     | 'auth/unauthorized-domain'
 }
 
+/**
+ * Error codes which can occur when calling {@link FirebaseAuth.signInWithRedirect}
+ */
 export interface SignInWithRedirectError extends AuthError {
   code: AuthErrorCodeType
     | 'auth/auth-domain-config-required'
@@ -120,6 +155,9 @@ export interface SignInWithRedirectError extends AuthError {
     | 'auth/unauthorized-domain'
 }
 
+/**
+ * Error codes which can occur when calling {@link FirebaseAuth.verifyPasswordResetCode}
+ */
 export interface VerifyPasswordResetCodeError extends AuthError {
   code: AuthErrorCodeType
     | 'auth/expired-action-code'
@@ -132,9 +170,11 @@ export interface ActionCodeInfo {
   email: string
 }
 
-@Injectable()
 export class FirebaseAuth {
 
+  /**
+   * Observable which emits when authorization state of the user changes.
+   */
   $user: Observable<FirebaseUser | null>
 
   constructor(private fbAuth: NativeFirebaseAuth) {

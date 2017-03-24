@@ -2,12 +2,18 @@
 
 [![CircleCI](https://circleci.com/gh/blaugold/angular-firebase.svg?style=svg&circle-token=bf5f61f7f9737852ea53e4e80981312624078636)](https://circleci.com/gh/blaugold/angular-firebase)
 
-Wrapper around Firebase JS-API for Angular Apps.
+Wrapper around Firebase Web-API for Angular Apps.
+
+Most methods found in the Firebase API are present and work the same. For this reason they are not
+documented extensively. The Firebase [Guide](https://firebase.google.com/docs/web/setup) and 
+[Reference](https://firebase.google.com/docs/reference/) will help understanding how to use the 
+library.
 
 The library runs Firebase calls inside zone.js to make change detection work. It is focused on 
 observables and returns them for every operation. To make working with observables and 
 Firebase easier, the returned observables are extended with helper operators and aliases to snapshot 
 methods.
+
 The library support type checking of a database schema to let the compiler catch misspellings and
 wrong access patterns.
 
@@ -166,7 +172,7 @@ without either subscribing to the returned observable or calling `toPromise()` o
 
 This is in contrast to the Firebase Web-API which starts the operation when the function is
 called. It is possible to globally configure the library to behave like the native Firebase Web-API
-by calling `FirebaseModule.forRoot(config, false)`
+by calling `setLazyInvocation(false)`
 
 ## TODO
 - wrap onDisconnect class to include methods in change detection

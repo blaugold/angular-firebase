@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core'
 import { database } from 'firebase'
 import { Observable } from 'rxjs/Observable'
 import { of } from 'rxjs/observable/of'
@@ -13,6 +12,9 @@ import { wrapPromise } from './utils'
 export type NativeDatabaseRef = database.Reference
 export type Query = database.Query
 
+/**
+ * Events which can be listened for.
+ */
 export type EventType =
   'value'
   | 'child_added'
@@ -20,6 +22,9 @@ export type EventType =
   | 'child_removed'
   | 'child_moved'
 
+/**
+ * Enum of event types.
+ */
 export class Event {
   static Value: EventType        = 'value'
   static ChildAdded: EventType   = 'child_added'
@@ -179,7 +184,6 @@ export class FirebaseDatabaseRefConfig {
               public ref: NativeDatabaseRef) {}
 }
 
-@Injectable()
 export class FirebaseDatabaseRef<T> extends FirebaseQuery<T> {
 
   static create<T>(parent: FirebaseDatabaseRef<any> | null,
@@ -248,11 +252,21 @@ export class FirebaseDatabaseRef<T> extends FirebaseQuery<T> {
   }
 }
 
-@Injectable()
 export class FirebaseDatabase<T> {
 
   constructor(private db: NativeFirebaseDatabase) { }
 
+  /**
+   * Get a {@link FirebaseDatabaseRef} to a location in the database.
+   *
+   * If you have defined a database schema you should use {@link FirebaseDatabase.ref} without
+   * specifying a path in the database. At least not without giving a type parameter for the data
+   * at that location. When using a schema you get the benefit of correct typing when using
+   * {@link FirebaseDatabaseRef.child}. The TypeScript compiler can infer from the path segments
+   * given to {@link FirebaseDatabaseRef.child} whether the path segment is valid at this
+   * location in the database and what the type of the data is that will be returned when
+   * fetching it.
+   */
   ref(): FirebaseDatabaseRef<T>
   ref(path: string): FirebaseDatabaseRef<any>
   ref<F>(path: string): FirebaseDatabaseRef<F>
