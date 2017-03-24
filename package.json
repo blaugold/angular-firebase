@@ -21,7 +21,7 @@
     "doc": "npm run typedoc -- --options typedoc.json index.ts",
     "upload-coverage": "coveralls < coverage/lcov.info",
     "karma": "karma start",
-    "build:project": "cd test/project && npm i && ng build --prod",
+    "build:project": "cd test/project && npm i && ./node_modules/.bin/ng build --prod",
     "test:project": "npm run build && npm run build:project",
     "test:unit": "COVERAGE=true npm run karma -- --single-run",
     "test:ngc": "ngc -p ./test/ngc/tsconfig.json",
