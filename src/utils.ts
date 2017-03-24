@@ -1,7 +1,7 @@
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable'
 import * as firebase from 'firebase'
-import 'zone.js'
 import { invokeLazy } from './firebase.module'
+import 'rxjs/add/observable/fromPromise'
 
 export function wrapExternalPromise<T>(promise: any): Promise<T> {
   return new Promise<T>((resolve, reject) => {
